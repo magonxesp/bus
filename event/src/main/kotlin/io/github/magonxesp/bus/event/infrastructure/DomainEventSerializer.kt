@@ -1,11 +1,9 @@
 package io.github.magonxesp.bus.event.infrastructure
 
-import com.magonxesp.bus.shared.domain.getParameter
 import com.magonxesp.bus.shared.infrastructure.createSharedMoshiInstance
 import io.github.magonxesp.bus.event.domain.DomainEvent
 import kotlinx.datetime.Instant
 import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.primaryConstructor
 
 data class SerializableDomainEvent(
 	val eventName: String,
