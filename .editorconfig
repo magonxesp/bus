@@ -4,7 +4,7 @@ insert_final_newline = true
 max_line_length = 140
 
 [*.{kt,kts}]
-indent_size = 2
+indent_size = 4
 indent_style = tab
 trim_trailing_whitespace = true
 ij_any_else_on_new_line = true
