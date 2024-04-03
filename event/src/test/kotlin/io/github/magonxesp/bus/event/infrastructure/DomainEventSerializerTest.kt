@@ -1,7 +1,7 @@
 package io.github.magonxesp.bus.event.infrastructure
 
-import io.github.magonxesp.bus.event.domain.ExampleDomainEvent
-import io.github.magonxesp.bus.event.domain.ExampleNestedDomainEvent
+import io.github.magonxesp.bus.event.domain.events.ExampleDomainEvent
+import io.github.magonxesp.bus.event.domain.events.ExampleNestedDomainEvent
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant

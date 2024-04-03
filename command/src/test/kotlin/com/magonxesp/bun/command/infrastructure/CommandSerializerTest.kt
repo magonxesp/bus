@@ -1,7 +1,7 @@
 package com.magonxesp.bun.command.infrastructure
 
-import com.magonxesp.bus.command.domain.Command
-import com.magonxesp.bus.command.infrastructure.CommandSerializer
+import io.github.magonxesp.bus.command.domain.Command
+import io.github.magonxesp.bus.command.infrastructure.CommandSerializer
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.string.shouldContain

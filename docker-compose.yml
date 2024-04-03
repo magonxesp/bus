@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.1-management-alpine
+    ports:
+      - '8080:15672'
+      - '5672:5672'
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root

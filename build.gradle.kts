@@ -31,12 +31,16 @@ subprojects {
         val kotlin_datetime_version: String by project
         val kotest_version: String by project
         val moshi_version: String by project
+        val rabbitmq_client_version: String by project
+        val reflections_version: String by project
 
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_corroutines_version")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
         implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlin_datetime_version")
         implementation("com.squareup.moshi:moshi:$moshi_version")
         implementation("com.squareup.moshi:moshi-kotlin:$moshi_version")
+        implementation("com.rabbitmq:amqp-client:$rabbitmq_client_version")
+        implementation("org.reflections:reflections:$reflections_version")
         testImplementation(kotlin("test"))
         testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
     }

@@ -14,4 +14,4 @@ rootProject.name = "bus"
 include(":command")
 include(":event")
 include(":query")
-include(":shared")
+include(":core")
