@@ -1,6 +1,5 @@
 package io.github.magonxesp.bus.event.infrastructure
 
-import com.squareup.moshi.rawType
 import io.github.magonxesp.bus.core.domain.getParameter
 import io.github.magonxesp.bus.event.domain.DomainEvent
 import io.github.magonxesp.bus.event.domain.DomainEventRegistry
@@ -10,7 +9,6 @@ import org.reflections.scanners.Scanners.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.isSubclassOf
-import kotlin.reflect.javaType
 import kotlin.reflect.jvm.jvmErasure
 
 class ReflectionDomainEventRegistry(basePackage: String) : DomainEventRegistry {
