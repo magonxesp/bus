@@ -15,7 +15,7 @@ class ReflectionDomainEventRegistryTest : FunSpec({
 			SendWelcomeEmailOnUserCreated::class
 		)
 
-		val registry = ReflectionDomainEventRegistry("io.github.magonxesp.bus.event.domain")
+		val registry = ReflectionDomainEventRegistry("io.github.magonxesp.bus.domain.event")
 		val subscribers = registry.domainEventSubscribers()
 
 		subscribers shouldContainKey UserCreated::class
