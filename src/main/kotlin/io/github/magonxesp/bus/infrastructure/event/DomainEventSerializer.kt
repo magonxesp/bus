@@ -2,35 +2,36 @@ package io.github.magonxesp.bus.infrastructure.event
 
 import io.github.magonxesp.bus.domain.shared.attribute.Attributes
 import io.github.magonxesp.bus.domain.event.DomainEvent
-import io.github.magonxesp.bus.infrastructure.shared.createSharedMoshiInstance
+import io.github.magonxesp.bus.infrastructure.shared.createJacksonObjectMapperInstance
 import kotlinx.datetime.Instant
 import kotlin.reflect.full.createInstance
 
 data class SerializableDomainEvent(
+	val eventId: String,
 	val eventName: String,
 	val attributes: Attributes,
-	val occurredOn: Instant
+	val occurredOn: String
 )
 
-internal val jsonSerializer = createSharedMoshiInstance()
+internal val jsonSerializer = createJacksonObjectMapperInstance()
 
 internal fun DomainEvent.serializeToJson(): String {
 	val serializable = SerializableDomainEvent(
+		eventId = eventId,
 		eventName = eventName,
-		attributes = attributes,
-		occurredOn = occurredOn
+		occurredOn = occurredOn.toString(),
+		attributes = attributes
 	)
 
-	val adapter = jsonSerializer.adapter(SerializableDomainEvent::class.java)
-	return adapter.toJson(serializable)
+	return jsonSerializer.writeValueAsString(serializable)
 }
 
-internal inline fun <reified T : DomainEvent> String.deserializeDomainEvent(): T? {
-	val adapter = jsonSerializer.adapter(SerializableDomainEvent::class.java)
-	val deserialized = adapter.fromJson(this) ?: return null
+internal inline fun <reified T : DomainEvent> String.deserializeDomainEvent(): T {
+	val deserialized = jsonSerializer.readValue(this, SerializableDomainEvent::class.java)
 
 	return T::class.createInstance().apply {
 		_attributes = deserialized.attributes.toMutableMap()
-		occurredOn = deserialized.occurredOn
+		occurredOn = Instant.parse(deserialized.occurredOn)
+		eventId = deserialized.eventId
 	}
 }

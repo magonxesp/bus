@@ -2,7 +2,7 @@ package io.github.magonxesp.bus.domain.shared.attribute
 
 import kotlin.reflect.KProperty
 
-class ReadOnlyAttribute<T : Any>(
+class ReadOnlyAttribute<T : AttributeValue>(
 	private val attributes: MutableAttributes,
 	private val initialValue: T
 ) {

@@ -8,6 +8,13 @@ class UserCreated(
 	email: String,
 	avatarUrl: String
 ) : DomainEvent() {
+	constructor() : this(
+		id = "",
+		name = "",
+		email = "",
+		avatarUrl = "",
+	)
+
 	override val eventName = "user_created"
 
 	val id: String by readOnlyAttribute(id)

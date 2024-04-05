@@ -1,4 +1,7 @@
 package io.github.magonxesp.bus.domain.shared.attribute
 
-typealias MutableAttributes = MutableMap<String, Any>
-typealias Attributes = Map<String, Any>
+import java.io.Serializable
+
+typealias AttributeValue = Serializable
+typealias MutableAttributes = MutableMap<String, AttributeValue>
+typealias Attributes = Map<String, AttributeValue>

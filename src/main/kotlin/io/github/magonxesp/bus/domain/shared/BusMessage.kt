@@ -9,7 +9,7 @@ abstract class BusMessage {
 	val attributes: Attributes
 		get() = _attributes.toMap()
 
-	protected fun <T : Any> readOnlyAttribute(value: T) = ReadOnlyAttribute(_attributes, value)
-	protected fun <T : Any> attribute(value: T) = WritableAttribute(_attributes, value)
-	protected fun <T : Any> nullableAttribute(value: T? = null) = NullableWritableAttribute(_attributes, value)
+	protected fun <T : AttributeValue> readOnlyAttribute(value: T) = ReadOnlyAttribute(_attributes, value)
+	protected fun <T : AttributeValue> attribute(value: T) = WritableAttribute(_attributes, value)
+	protected fun <T : AttributeValue> nullableAttribute(value: T? = null) = NullableWritableAttribute(_attributes, value)
 }

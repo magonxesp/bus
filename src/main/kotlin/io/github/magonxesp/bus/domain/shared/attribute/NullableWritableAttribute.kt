@@ -2,7 +2,7 @@ package io.github.magonxesp.bus.domain.shared.attribute
 
 import kotlin.reflect.KProperty
 
-class NullableWritableAttribute<T : Any>(
+class NullableWritableAttribute<T : AttributeValue>(
 	private val attributes: MutableAttributes,
 	private val initialValue: T? = null
 ) {
