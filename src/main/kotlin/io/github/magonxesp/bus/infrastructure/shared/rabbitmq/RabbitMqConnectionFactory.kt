@@ -35,6 +35,11 @@ class RabbitMqConnectionFactory(private val configuration: RabbitMqConnectionCon
 			closeConnectionOnShutdown()
 		}
 
+		// if the connection is closed, and we want a connection create a new one
+		if (connection != null && !connection!!.isOpen) {
+			connection = createNewConnection()
+		}
+
 		return connection!!
 	}
 }
