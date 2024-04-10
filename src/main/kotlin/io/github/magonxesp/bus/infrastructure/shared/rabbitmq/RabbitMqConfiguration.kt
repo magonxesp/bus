@@ -1,6 +1,6 @@
 package io.github.magonxesp.bus.infrastructure.shared.rabbitmq
 
-object RabbitMqConfiguration {
+class RabbitMqConfiguration {
 	/**
 	 * The namespace is the prefix for create queues
 	 */

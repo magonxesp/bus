@@ -14,7 +14,7 @@ import kotlin.reflect.jvm.jvmErasure
 class ReflectionDomainEventRegistry(basePackage: String) : DomainEventRegistry {
 	private val reflections = Reflections(basePackage)
 
-	override fun domainEventSubscribers(): Map<KClass<*>, Set<KClass<*>>> {
+	override fun domainEventSubscribers(): DomainEventSubscribers {
 		val registry = mutableMapOf<KClass<*>, MutableSet<KClass<*>>>()
 		val subscriberClasses = reflections
 			.get(SubTypes.of(DomainEventSubscriber::class.java)
