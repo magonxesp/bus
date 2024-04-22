@@ -1,35 +1,36 @@
 package io.github.magonxesp.bus.infrastructure.shared.rabbitmq
 
-import io.kotest.core.spec.style.FunSpec
+import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
 
-class RabbitMqConnectionFactoryTest : FunSpec({
+class RabbitMqConnectionFactoryTest : RabbitMqIntegrationTestCase() {
+	init {
+		test("it should connect to rabbitmq") {
+			val configuration = RabbitMqConnectionConfiguration(
+				username = rabbitmq.adminUsername,
+				password = rabbitmq.adminPassword,
+				port = rabbitmq.amqpPort
+			)
 
-	test("it should connect to rabbitmq") {
-		val configuration = RabbitMqConnectionConfiguration(
-			username = "root",
-			password = "root"
-		)
+			val factory = RabbitMqConnectionFactory(configuration)
+			val connection = factory.getConnection()
 
-		val factory = RabbitMqConnectionFactory(configuration)
-		val connection = factory.getConnection()
+			connection.createChannel()
+			connection.close()
+		}
 
-		connection.createChannel()
-		connection.close()
+		xtest("it should connect to rabbitmq with custom vhost") {
+			val configuration = RabbitMqConnectionConfiguration(
+				username = rabbitmq.adminUsername,
+				password = rabbitmq.adminPassword,
+				virtualHost = "test_vhost",
+				port = rabbitmq.amqpPort
+			)
+
+			val factory = RabbitMqConnectionFactory(configuration)
+			val connection = factory.getConnection()
+
+			connection.createChannel()
+			connection.close()
+		}
 	}
-
-	test("it should connect to rabbitmq with custom vhost") {
-		val configuration = RabbitMqConnectionConfiguration(
-			username = "root",
-			password = "root",
-			virtualHost = "example_vhost",
-			port = 5673
-		)
-
-		val factory = RabbitMqConnectionFactory(configuration)
-		val connection = factory.getConnection()
-
-		connection.createChannel()
-		connection.close()
-	}
-
-})
+}

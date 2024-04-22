@@ -1,25 +1,25 @@
 package io.github.magonxesp.bus.infrastructure.event
 
+import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
 import io.github.magonxesp.bus.domain.event.events.UserCreated
 import io.github.magonxesp.bus.domain.event.subscribers.CountTotalUsersOnUserCreated
 import io.github.magonxesp.bus.domain.event.subscribers.SendWelcomeEmailOnUserCreated
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainAnyOf
 import io.kotest.matchers.maps.shouldContainKey
 
-class ReflectionDomainEventRegistryTest : FunSpec({
+class ReflectionDomainEventRegistryTest : RabbitMqIntegrationTestCase() {
+	init {
+		test("it should scan for domain events subscribers") {
+			val expectedSubscribers = listOf(
+				CountTotalUsersOnUserCreated::class,
+				SendWelcomeEmailOnUserCreated::class
+			)
 
-	test("it should scan for domain events subscribers") {
-		val expectedSubscribers = listOf(
-			CountTotalUsersOnUserCreated::class,
-			SendWelcomeEmailOnUserCreated::class
-		)
+			val registry = ReflectionDomainEventRegistry("io.github.magonxesp.bus.domain.event")
+			val subscribers = registry.domainEventSubscribers()
 
-		val registry = ReflectionDomainEventRegistry("io.github.magonxesp.bus.domain.event")
-		val subscribers = registry.domainEventSubscribers()
-
-		subscribers shouldContainKey UserCreated::class
-		subscribers[UserCreated::class]!! shouldContainAnyOf expectedSubscribers
+			subscribers shouldContainKey UserCreated::class
+			subscribers[UserCreated::class]!! shouldContainAnyOf expectedSubscribers
+		}
 	}
-
-})
+}
