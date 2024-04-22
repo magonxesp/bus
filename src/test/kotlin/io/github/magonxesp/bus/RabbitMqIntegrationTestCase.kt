@@ -1,5 +1,7 @@
 package io.github.magonxesp.bus
 
+import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
+import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventQueueSetup
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionConfiguration
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionFactory
 import io.kotest.core.spec.Spec
@@ -11,11 +13,7 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:3.13.1-management-alpine"))
 	}
 
-	override suspend fun beforeSpec(spec: Spec) {
-		rabbitmq.start()
-	}
-
-	val connectionFactory: RabbitMqConnectionFactory
+	protected val connectionFactory: RabbitMqConnectionFactory
 		get() = RabbitMqConnectionFactory(
 			RabbitMqConnectionConfiguration(
 				username = rabbitmq.adminUsername,
@@ -23,4 +21,15 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 				port = rabbitmq.amqpPort
 			)
 		)
+
+	protected val domainEventRegistry = ReflectionDomainEventRegistry("io.github.magonxesp.bus")
+
+	private val queueSetup: RabbitMqDomainEventQueueSetup
+		get() = RabbitMqDomainEventQueueSetup(connectionFactory, domainEventRegistry)
+
+	override suspend fun beforeSpec(spec: Spec) {
+		super.beforeSpec(spec)
+		rabbitmq.start()
+		queueSetup.setupQueues()
+	}
 }
