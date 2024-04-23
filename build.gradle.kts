@@ -23,25 +23,27 @@ dependencies {
 	val reflections_version: String by project
 	val test_containers_version: String by project
 	val slf4j_version: String by project
+	val jackson_version: String by project
 
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_corroutines_version")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlin_datetime_version")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
 	implementation("com.squareup.moshi:moshi:$moshi_version")
 	implementation("com.squareup.moshi:moshi-kotlin:$moshi_version")
 	implementation("com.rabbitmq:amqp-client:$rabbitmq_client_version")
 	implementation("org.reflections:reflections:$reflections_version")
 	implementation("org.slf4j:slf4j-api:$slf4j_version")
 	implementation("org.slf4j:slf4j-log4j12:$slf4j_version")
+	implementation("com.fasterxml.jackson.core:jackson-databind:$jackson_version")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version")
 
 	testImplementation(kotlin("test"))
 	testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
 	testImplementation("org.testcontainers:testcontainers:$test_containers_version")
 	testImplementation("org.testcontainers:rabbitmq:$test_containers_version")
 	testImplementation("org.testcontainers:junit-jupiter:$test_containers_version")
+	testImplementation("io.github.serpro69:kotlin-faker:1.16.0")
 }
 
 tasks.test {
