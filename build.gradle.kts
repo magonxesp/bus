@@ -8,10 +8,6 @@ plugins {
 group = "io.github.magonxesp"
 version = "0.0.1"
 
-repositories {
-    mavenCentral()
-}
-
 java {
 	targetCompatibility = JavaVersion.VERSION_1_8
 	sourceCompatibility = JavaVersion.VERSION_1_8
@@ -26,6 +22,7 @@ dependencies {
 	val rabbitmq_client_version: String by project
 	val reflections_version: String by project
 	val test_containers_version: String by project
+	val slf4j_version: String by project
 
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_corroutines_version")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
@@ -37,6 +34,8 @@ dependencies {
 	implementation("com.squareup.moshi:moshi-kotlin:$moshi_version")
 	implementation("com.rabbitmq:amqp-client:$rabbitmq_client_version")
 	implementation("org.reflections:reflections:$reflections_version")
+	implementation("org.slf4j:slf4j-api:$slf4j_version")
+	implementation("org.slf4j:slf4j-log4j12:$slf4j_version")
 
 	testImplementation(kotlin("test"))
 	testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")

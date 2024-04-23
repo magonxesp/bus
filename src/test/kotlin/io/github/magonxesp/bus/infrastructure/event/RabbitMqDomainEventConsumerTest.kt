@@ -13,6 +13,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import java.util.*
 import kotlin.io.path.Path
+import kotlin.io.path.exists
 import kotlin.reflect.KClass
 
 class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
@@ -29,18 +30,11 @@ class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
 	 * When a test event subscriber is dispatched It will write a file, then we should
 	 * check if the file exists for ensure the subscriber is fired
 	 */
-	private fun DomainEvent.isConsumedBy(klass: KClass<*>): Boolean {
-		val file = Path(TEST_TMP_DIR, eventId).toFile()
-
-		if (!file.exists()) {
-			return false
-		}
-
-		return file.readText() == klass.toString()
-	}
+	private fun DomainEvent.isConsumedBy(klass: KClass<*>): Boolean =
+		Path(TEST_TMP_DIR, eventId, klass.qualifiedName!!).exists()
 
 	init {
-		test("it should publish a domain event") {
+		test("it should consume incoming domain event") {
 			val event = UserCreated(
 				id = UUID.randomUUID().toString(),
 				name = "test",

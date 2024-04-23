@@ -14,6 +14,7 @@ import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfigurat
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionFactory
 import org.slf4j.LoggerFactory
 import kotlin.concurrent.thread
+import kotlin.reflect.KClass
 
 class RabbitMqDomainEventConsumer(
 	private val registry: DomainEventRegistry,
@@ -23,6 +24,7 @@ class RabbitMqDomainEventConsumer(
 ) : RabbitMqDomainEventClient(configuration), DomainEventConsumer {
 	class SubscriberConsumer(
 		channel: Channel,
+		private val eventClass: KClass<*>,
 		private val subscriber: DomainEventSubscriber<DomainEvent>
 	) : DefaultConsumer(channel) {
 		private val logger = LoggerFactory.getLogger(this::class.java)
@@ -31,7 +33,8 @@ class RabbitMqDomainEventConsumer(
 			val deliveryTag = envelope?.deliveryTag ?: return
 
 			try {
-				val domainEvent = body?.decodeToString()?.deserializeDomainEvent<DomainEvent>() ?: return
+				val domainEventJson = body?.decodeToString() ?: return
+				val domainEvent = domainEventJson.deserializeDomainEvent(eventClass)
 				subscriber.handle(domainEvent)
 				channel.basicAck(deliveryTag, false)
 			} catch (exception: Exception) {
@@ -49,21 +52,23 @@ class RabbitMqDomainEventConsumer(
 		var stop = false
 
 		for (domainEventEntry in domainEventEntries) {
+			val domainEventClass = domainEventEntry.key
+
 			for (subscriber in domainEventEntry.value) {
 				val subscriberInstance = dependencyInjectionHelper.get<DomainEventSubscriber<DomainEvent>>(subscriber)
-				val consumer = SubscriberConsumer(channel, subscriberInstance)
+				val consumer = SubscriberConsumer(channel, domainEventClass, subscriberInstance)
 				consumers.add(channel.basicConsume(subscriber.subscriberQueueName, false, consumer))
 			}
 		}
 
-		Runtime.getRuntime().addShutdownHook(thread(start = false) {
+		connectionFactory.addShutdownTask {
 			for (consumer in consumers) {
 				channel.basicCancel(consumer)
 			}
 
 			channel.close()
 			stop = true
-		})
+		}
 
 		while (block) {
 			if (stop) break

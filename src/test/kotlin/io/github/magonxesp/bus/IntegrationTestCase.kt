@@ -11,7 +11,6 @@ abstract class IntegrationTestCase : FunSpec() {
 
 	override suspend fun beforeSpec(spec: Spec) {
 		super.beforeSpec(spec)
-		File(TEST_TMP_DIR).takeIf { it.exists() }?.deleteRecursively()
 		File(TEST_TMP_DIR).takeUnless { it.exists() }?.mkdir()
 	}
 }

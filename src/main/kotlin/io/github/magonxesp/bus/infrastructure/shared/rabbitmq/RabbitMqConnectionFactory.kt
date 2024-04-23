@@ -1,18 +1,29 @@
 package io.github.magonxesp.bus.infrastructure.shared.rabbitmq
 
+import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
+import org.slf4j.LoggerFactory
 import kotlin.concurrent.thread
 
 class RabbitMqConnectionFactory(private val configuration: RabbitMqConnectionConfiguration) {
+	private val logger = LoggerFactory.getLogger(this::class.java)
+
 	companion object {
 		private var connection: Connection? = null
+		private val shutdownTasks = mutableListOf<() -> Unit>()
 	}
 
 	private fun closeConnectionOnShutdown() {
 		Runtime.getRuntime().addShutdownHook(thread(start = false) {
-			if (connection != null) {
+			if (connection != null && connection!!.isOpen) {
+				logger.info("Closing RabbitMQ connection...")
+				for (shutDownTask in shutdownTasks) {
+					shutDownTask()
+				}
+
 				connection!!.close()
+				logger.info("RabbitMQ connection closed!")
 			}
 		})
 	}
@@ -41,5 +52,12 @@ class RabbitMqConnectionFactory(private val configuration: RabbitMqConnectionCon
 		}
 
 		return connection!!
+	}
+
+	/**
+	 * Add a shutdown task when closing the connection gracefully
+	 */
+	fun addShutdownTask(task: () -> Unit) {
+		shutdownTasks.add(task)
 	}
 }
