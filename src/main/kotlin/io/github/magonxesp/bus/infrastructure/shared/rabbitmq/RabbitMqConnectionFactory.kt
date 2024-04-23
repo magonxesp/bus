@@ -8,11 +8,8 @@ import kotlin.concurrent.thread
 
 class RabbitMqConnectionFactory(private val configuration: RabbitMqConnectionConfiguration) {
 	private val logger = LoggerFactory.getLogger(this::class.java)
-
-	companion object {
-		private var connection: Connection? = null
-		private val shutdownTasks = mutableListOf<() -> Unit>()
-	}
+	private var connection: Connection? = null
+	private val shutdownTasks = mutableListOf<() -> Unit>()
 
 	private fun closeConnectionOnShutdown() {
 		Runtime.getRuntime().addShutdownHook(thread(start = false) {
