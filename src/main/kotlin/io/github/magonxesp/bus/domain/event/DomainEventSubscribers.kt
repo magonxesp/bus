@@ -1,4 +1,4 @@
-package io.github.magonxesp.bus.infrastructure.event
+package io.github.magonxesp.bus.domain.event
 
 import kotlin.reflect.KClass
 

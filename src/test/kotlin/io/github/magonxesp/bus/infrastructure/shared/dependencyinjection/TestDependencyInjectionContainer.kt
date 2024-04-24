@@ -1,7 +1,7 @@
 package io.github.magonxesp.bus.infrastructure.shared.dependencyinjection
 
-import io.github.magonxesp.bus.domain.event.subscribers.CountTotalUsersOnUserCreated
-import io.github.magonxesp.bus.domain.event.subscribers.SendWelcomeEmailOnUserCreated
+import io.github.magonxesp.bus.domain.event.events.CountTotalUsersOnUserCreated
+import io.github.magonxesp.bus.domain.event.events.SendWelcomeEmailOnUserCreated
 import kotlin.reflect.KClass
 
 class TestDependencyInjectionContainer : BusDependencyInjectionHelper {

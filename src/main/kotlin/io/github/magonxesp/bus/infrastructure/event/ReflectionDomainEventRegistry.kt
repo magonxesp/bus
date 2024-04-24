@@ -4,6 +4,7 @@ import io.github.magonxesp.bus.domain.shared.getParameter
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.event.DomainEventRegistry
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
+import io.github.magonxesp.bus.domain.event.DomainEventSubscribers
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners.*
 import kotlin.reflect.KClass

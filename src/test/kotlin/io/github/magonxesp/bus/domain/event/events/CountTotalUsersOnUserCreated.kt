@@ -1,13 +1,12 @@
-package io.github.magonxesp.bus.domain.event.subscribers
+package io.github.magonxesp.bus.domain.event.events
 
 import io.github.magonxesp.bus.IntegrationTestCase
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
-import io.github.magonxesp.bus.domain.event.events.UserCreated
 import org.slf4j.LoggerFactory
 import kotlin.io.path.Path
 import kotlin.io.path.writeText
 
-class SendWelcomeEmailOnUserCreated : DomainEventSubscriber<UserCreated> {
+class CountTotalUsersOnUserCreated : DomainEventSubscriber<UserCreated> {
 	private val logger = LoggerFactory.getLogger(this::class.java)
 
 	override fun handle(event: UserCreated) {

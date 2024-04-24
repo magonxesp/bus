@@ -3,8 +3,8 @@ package io.github.magonxesp.bus.infrastructure.event
 import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.event.events.UserCreated
-import io.github.magonxesp.bus.domain.event.subscribers.CountTotalUsersOnUserCreated
-import io.github.magonxesp.bus.domain.event.subscribers.SendWelcomeEmailOnUserCreated
+import io.github.magonxesp.bus.domain.event.events.CountTotalUsersOnUserCreated
+import io.github.magonxesp.bus.domain.event.events.SendWelcomeEmailOnUserCreated
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventBus
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventConsumer
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.TestDependencyInjectionContainer
