@@ -15,4 +15,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test
-        run: ./gradlew build test
+        run: ./gradlew clean cleanTest build test
