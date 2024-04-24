@@ -14,5 +14,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Build and test
         run: ./gradlew clean cleanTest build test
