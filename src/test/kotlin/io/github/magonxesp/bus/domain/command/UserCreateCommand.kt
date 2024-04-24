@@ -1,4 +1,4 @@
-package io.github.magonxesp.bus.domain.event.command
+package io.github.magonxesp.bus.domain.command
 
 import io.github.magonxesp.bus.domain.command.Command
 

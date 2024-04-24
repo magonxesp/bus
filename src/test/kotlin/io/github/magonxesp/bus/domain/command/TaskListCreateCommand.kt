@@ -1,6 +1,4 @@
-package io.github.magonxesp.bus.domain.event.command
-
-import io.github.magonxesp.bus.domain.command.Command
+package io.github.magonxesp.bus.domain.command
 
 data class TaskListCreateCommand(
 	val tasks: List<Task>

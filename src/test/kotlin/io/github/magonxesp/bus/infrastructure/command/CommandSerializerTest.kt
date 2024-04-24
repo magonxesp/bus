@@ -1,8 +1,8 @@
 package io.github.magonxesp.bus.infrastructure.command
 
 import io.github.magonxesp.bus.IntegrationTestCase
-import io.github.magonxesp.bus.domain.event.command.TaskListCreateCommand
-import io.github.magonxesp.bus.domain.event.command.UserCreateCommand
+import io.github.magonxesp.bus.domain.command.TaskListCreateCommand
+import io.github.magonxesp.bus.domain.command.UserCreateCommand
 import io.github.magonxesp.bus.random
 import io.kotest.matchers.shouldBe
 import java.util.*

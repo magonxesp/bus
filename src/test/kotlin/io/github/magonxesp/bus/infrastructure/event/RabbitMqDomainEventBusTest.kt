@@ -1,7 +1,7 @@
 package io.github.magonxesp.bus.infrastructure.event
 
 import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
-import io.github.magonxesp.bus.domain.event.events.UserCreated
+import io.github.magonxesp.bus.domain.event.UserCreated
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventBus
 import io.kotest.core.spec.Spec
 import java.util.*

@@ -1,8 +1,8 @@
 package io.github.magonxesp.bus.infrastructure.event
 
 import io.github.magonxesp.bus.IntegrationTestCase
-import io.github.magonxesp.bus.domain.event.events.ExampleDomainEvent
-import io.github.magonxesp.bus.domain.event.events.ExampleNestedDomainEvent
+import io.github.magonxesp.bus.domain.event.ExampleDomainEvent
+import io.github.magonxesp.bus.domain.event.ExampleNestedDomainEvent
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant
 

@@ -1,6 +1,4 @@
-package io.github.magonxesp.bus.domain.event.events
-
-import io.github.magonxesp.bus.domain.event.DomainEvent
+package io.github.magonxesp.bus.domain.event
 
 class ExampleNestedDomainEvent(
 	exampleAttribute: String,

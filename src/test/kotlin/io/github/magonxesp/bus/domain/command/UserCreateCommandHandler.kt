@@ -1,7 +1,6 @@
-package io.github.magonxesp.bus.domain.event.command
+package io.github.magonxesp.bus.domain.command
 
 import io.github.magonxesp.bus.IntegrationTestCase
-import io.github.magonxesp.bus.domain.command.CommandHandler
 import org.slf4j.LoggerFactory
 import kotlin.io.path.Path
 import kotlin.io.path.writeText

@@ -1,7 +1,7 @@
 package io.github.magonxesp.bus.infrastructure.command
 
 import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
-import io.github.magonxesp.bus.domain.event.command.UserCreateCommand
+import io.github.magonxesp.bus.domain.command.UserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandBus
 import io.github.magonxesp.bus.random
 
