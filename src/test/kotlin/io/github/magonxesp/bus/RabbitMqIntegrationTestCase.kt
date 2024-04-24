@@ -1,5 +1,6 @@
 package io.github.magonxesp.bus
 
+import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
 import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventQueueSetup
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionConfiguration
@@ -35,6 +36,7 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 		)
 
 	protected val domainEventRegistry = ReflectionDomainEventRegistry("io.github.magonxesp.bus")
+	protected val commandRegistry = ReflectionCommandRegistry("io.github.magonxesp.bus")
 
 	private val queueSetup: RabbitMqDomainEventQueueSetup
 		get() = RabbitMqDomainEventQueueSetup(connectionFactory, domainEventRegistry)
