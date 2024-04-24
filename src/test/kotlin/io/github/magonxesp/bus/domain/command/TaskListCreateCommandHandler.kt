@@ -1,17 +1,14 @@
 package io.github.magonxesp.bus.domain.command
 
-import io.github.magonxesp.bus.IntegrationTestCase
+import io.github.magonxesp.bus.IntegrationTestCase.Companion.notifyConsumed
 import org.slf4j.LoggerFactory
-import kotlin.io.path.Path
-import kotlin.io.path.writeText
 
 class TaskListCreateCommandHandler : CommandHandler<TaskListCreateCommand> {
 	private val logger = LoggerFactory.getLogger(this::class.java)
 
 	override fun handle(command: TaskListCreateCommand) {
 		logger.debug("Command handler {} fired", this::class)
-		val directory = Path(IntegrationTestCase.TEST_TMP_DIR, "command").toFile().apply { mkdirs() }
-		Path(directory.path, this::class.qualifiedName!!).writeText("")
+		notifyConsumed(command)
 		logger.debug("Command handler {} finish", this::class)
 	}
 }

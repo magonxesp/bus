@@ -26,13 +26,6 @@ class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
 		eventConsumer = RabbitMqDomainEventConsumer(domainEventRegistry, TestDependencyInjectionContainer(), connectionFactory)
 	}
 
-	/**
-	 * When a test event subscriber is dispatched It will write a file, then we should
-	 * check if the file exists for ensure the subscriber is fired
-	 */
-	private fun DomainEvent.isConsumedBy(klass: KClass<*>): Boolean =
-		Path(TEST_TMP_DIR, eventId, klass.qualifiedName!!).exists()
-
 	init {
 		test("it should consume incoming domain event") {
 			val event = UserCreated(
