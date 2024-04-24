@@ -7,6 +7,8 @@ import io.github.magonxesp.bus.domain.event.DomainEventConsumer
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.exists
@@ -42,13 +44,13 @@ abstract class IntegrationTestCase : FunSpec() {
 	protected fun Command.isConsumedBy(klass: KClass<*>): Boolean =
 		Path(TEST_TMP_DIR, "command", this::class.qualifiedName!!, klass.qualifiedName!!).exists()
 
-	override suspend fun beforeSpec(spec: Spec) {
-		super.beforeSpec(spec)
+	override suspend fun beforeTest(testCase: TestCase) {
+		super.beforeTest(testCase)
 		File(TEST_TMP_DIR).takeUnless { it.exists() }?.mkdir()
 	}
 
-	override suspend fun afterSpec(spec: Spec) {
-		super.afterSpec(spec)
+	override suspend fun afterTest(testCase: TestCase, result: TestResult) {
+		super.afterTest(testCase, result)
 		File(TEST_TMP_DIR).takeUnless { !it.exists() }?.deleteRecursively()
 	}
 }
