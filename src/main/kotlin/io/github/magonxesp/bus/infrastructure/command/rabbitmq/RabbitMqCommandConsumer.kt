@@ -5,9 +5,9 @@ import com.rabbitmq.client.Channel
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import io.github.magonxesp.bus.domain.command.Command
+import io.github.magonxesp.bus.domain.command.CommandConsumer
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.command.CommandRegistry
-import io.github.magonxesp.bus.domain.event.DomainEventConsumer
 import io.github.magonxesp.bus.infrastructure.command.deserializeCommand
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfiguration
@@ -20,7 +20,7 @@ class RabbitMqCommandConsumer(
 	private val dependencyInjectionHelper: BusDependencyInjectionHelper,
 	private val connectionFactory: RabbitMqConnectionFactory,
 	configuration: RabbitMqConfiguration = RabbitMqConfiguration()
-) : RabbitMqCommandClient(configuration), DomainEventConsumer {
+) : RabbitMqCommandClient(configuration), CommandConsumer {
 	class HandlerConsumer(
 		channel: Channel,
 		private val commandClass: KClass<*>,

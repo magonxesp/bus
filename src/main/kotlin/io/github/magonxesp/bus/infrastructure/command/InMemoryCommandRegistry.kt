@@ -34,5 +34,9 @@ class InMemoryCommandRegistry : CommandRegistry {
 		registry[command] = commandHandler
 	}
 
+	internal fun setHandlers(registry: Map<KClass<*>, KClass<*>>) {
+		this.registry.putAll(registry)
+	}
+
 	override fun commandHandlers(): CommandHandlers = registry
 }

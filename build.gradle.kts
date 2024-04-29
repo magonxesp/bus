@@ -37,6 +37,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-databind:$jackson_version")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version")
+	implementation("io.insert-koin:koin-core:3.5.6")
 
 	testImplementation(kotlin("test"))
 	testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
