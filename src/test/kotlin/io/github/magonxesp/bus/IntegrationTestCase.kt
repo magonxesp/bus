@@ -3,13 +3,13 @@ package io.github.magonxesp.bus
 import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.event.DomainEvent
-import io.github.magonxesp.bus.domain.event.DomainEventConsumer
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
-import io.kotest.core.spec.Spec
+import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
+import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
-import java.io.File
+import kotlinx.datetime.Clock
 import kotlin.io.path.Path
 import kotlin.io.path.exists
 import kotlin.io.path.writeText
@@ -18,14 +18,15 @@ import kotlin.reflect.KClass
 abstract class IntegrationTestCase : FunSpec() {
 	companion object {
 		const val TEST_TMP_DIR = "test_tmp"
+		val TEST_RUN_TIMESTAMP = Clock.System.now().epochSeconds.toString()
 
 		fun DomainEventSubscriber<*>.notifyConsumed(event: DomainEvent) {
-			val directory = Path(TEST_TMP_DIR, "event", event.eventId).toFile().apply { mkdirs() }
+			val directory = Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "event", event.eventId).toFile().apply { mkdirs() }
 			Path(directory.path, this::class.qualifiedName!!).writeText("")
 		}
 
 		fun CommandHandler<*>.notifyConsumed(command: Command) {
-			val directory = Path(TEST_TMP_DIR, "command", command::class.qualifiedName!!).toFile().apply { mkdirs() }
+			val directory = Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "command", command::class.qualifiedName!!).toFile().apply { mkdirs() }
 			Path(directory.path, this::class.qualifiedName!!).writeText("")
 		}
 	}
@@ -35,22 +36,25 @@ abstract class IntegrationTestCase : FunSpec() {
 	 * check if the file exists for ensure the subscriber is fired
 	 */
 	protected fun DomainEvent.isConsumedBy(klass: KClass<*>): Boolean =
-		Path(TEST_TMP_DIR, "event", eventId, klass.qualifiedName!!).exists()
+		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "event", eventId, klass.qualifiedName!!).exists()
 
 	/**
 	 * When a test command handler is dispatched It will write a file, then we should
 	 * check if the file exists for ensure the handler is fired
 	 */
 	protected fun Command.isConsumedBy(klass: KClass<*>): Boolean =
-		Path(TEST_TMP_DIR, "command", this::class.qualifiedName!!, klass.qualifiedName!!).exists()
+		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "command", this::class.qualifiedName!!, klass.qualifiedName!!).exists()
+
+	protected val domainEventRegistry = ReflectionDomainEventRegistry("io.github.magonxesp.bus")
+	protected val commandRegistry = ReflectionCommandRegistry("io.github.magonxesp.bus")
 
 	override suspend fun beforeTest(testCase: TestCase) {
 		super.beforeTest(testCase)
-		File(TEST_TMP_DIR).takeUnless { it.exists() }?.mkdir()
+		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP).toFile().takeUnless { it.exists() }?.mkdir()
 	}
 
 	override suspend fun afterTest(testCase: TestCase, result: TestResult) {
 		super.afterTest(testCase, result)
-		File(TEST_TMP_DIR).takeUnless { !it.exists() }?.deleteRecursively()
+		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP).toFile().takeUnless { !it.exists() }?.deleteRecursively()
 	}
 }

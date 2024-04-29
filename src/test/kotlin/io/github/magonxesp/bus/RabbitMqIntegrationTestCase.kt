@@ -36,9 +36,6 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 			)
 		)
 
-	protected val domainEventRegistry = ReflectionDomainEventRegistry("io.github.magonxesp.bus")
-	protected val commandRegistry = ReflectionCommandRegistry("io.github.magonxesp.bus")
-
 	private val domainEventQueueSetup: RabbitMqDomainEventQueueSetup
 		get() = RabbitMqDomainEventQueueSetup(connectionFactory, domainEventRegistry)
 
