@@ -12,12 +12,8 @@ import org.koin.core.module.Module
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun inMemoryCommandBusModule(
-	basePackage: String,
-	configuration: RabbitMqConfiguration = RabbitMqConfiguration(),
-): Module {
+fun inMemoryCommandBusModule(basePackage: String): Module {
 	return module {
-		single { configuration }
 		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
 		single { ReflectionCommandRegistry(basePackage) } bind CommandRegistry::class
 		single { InMemorySyncCommandBus(get(), get()) } bind CommandBus::class

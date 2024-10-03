@@ -1,5 +1,6 @@
 package io.github.magonxesp.example.inmemorybus.plugins
 
+import io.github.magonxesp.bus.infrastructure.command.koin.inMemoryCommandBusModule
 import io.github.magonxesp.example.inmemorybus.repository.BookRepository
 import io.github.magonxesp.example.inmemorybus.repository.UserRepository
 import io.ktor.server.application.*
@@ -21,7 +22,8 @@ fun Application.configureDependencyInjection() {
 	startKoin {
 		modules(
 			databaseModule,
-			repositoryModule
+			repositoryModule,
+			inMemoryCommandBusModule("io.github.magonxesp.example.inmemorybus")
 		)
 	}
 }

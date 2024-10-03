@@ -16,4 +16,5 @@ plugins {
 }
 
 rootProject.name = "bus"
+include(":bus")
 include(":examples:in-memory-bus")
