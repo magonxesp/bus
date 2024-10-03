@@ -2,6 +2,17 @@
 
 Preconfigured command, query and domain event bus.
 
+
+## About the example application (WIP)
+
+The example application is a books marketplace, where you can sell a book as user and other
+can buy it.
+
+* A user can list the available books
+* A user can sell a book
+* A user can view the book's sellers
+* A user can choose a seller and buy the book
+
 ## Performance test
 
 First you need to run the example application you want to benchmark.
