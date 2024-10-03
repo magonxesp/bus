@@ -7,6 +7,7 @@ import io.github.magonxesp.bus.infrastructure.command.InMemoryCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
+import io.github.magonxesp.bus.infrastructure.shared.koin.KoinDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfiguration
 import org.koin.core.module.Module
 import org.koin.dsl.bind
@@ -25,7 +26,7 @@ fun inMemoryCommandBusModule(
 	configuration: RabbitMqConfiguration = RabbitMqConfiguration(),
 ): Module {
 	val registry = InMemoryCommandRegistry().apply {
-		setHandlers(commandHandlers)
+		registry = commandHandlers.toMutableMap()
 	}
 
 	return module {

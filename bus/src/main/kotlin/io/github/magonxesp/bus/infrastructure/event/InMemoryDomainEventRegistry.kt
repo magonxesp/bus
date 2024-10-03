@@ -7,7 +7,8 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
 class InMemoryDomainEventRegistry : DomainEventRegistry {
-	private val registry: MutableMap<KClass<*>, MutableSet<KClass<*>>> = mutableMapOf()
+	var registry: MutableMap<KClass<*>, MutableSet<KClass<*>>> = mutableMapOf()
+		internal set
 
 	fun addSubscriber(domainEvent: KClass<*>, domainEventSubscriber: KClass<*>) {
 		if (!domainEvent.isSubclassOf(DomainEvent::class)) {

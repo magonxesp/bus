@@ -1,5 +1,5 @@
 services:
-  in-memory-bus:
+  in-memory:
     build:
       dockerfile: examples/in-memory-bus/Dockerfile
       context: .

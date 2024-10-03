@@ -21,14 +21,13 @@ class BookRepository(private val database: Database) {
 			.singleOrNull()?.toBookEntity()
 	}
 
-	fun save(book: Book) = transaction(database) {
+	fun save(book: Book): Unit = transaction(database) {
 		if (findById(book.id) != null) {
 			BooksTable.update(where = { BooksTable.id eq book.id }) {
 				it[id] = book.id
 				it[title] = book.title
 				it[author] = book.author
 				it[stock] = book.stock
-				it[numericalId] = book.numericalId
 			}
 		} else {
 			BooksTable.insert {
@@ -36,7 +35,6 @@ class BookRepository(private val database: Database) {
 				it[title] = book.title
 				it[author] = book.author
 				it[stock] = book.stock
-				it[numericalId] = book.numericalId
 			}
 		}
 	}

@@ -11,7 +11,8 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.jvm.jvmErasure
 
 class InMemoryCommandRegistry : CommandRegistry {
-	private val registry: MutableMap<KClass<*>, KClass<*>> = mutableMapOf()
+	var registry: MutableMap<KClass<*>, KClass<*>> = mutableMapOf()
+		internal set
 
 	fun addHandler(command: KClass<*>, commandHandler: KClass<*>) {
 		if (!command.isSubclassOf(Command::class)) {
@@ -32,10 +33,6 @@ class InMemoryCommandRegistry : CommandRegistry {
 		}
 
 		registry[command] = commandHandler
-	}
-
-	internal fun setHandlers(registry: Map<KClass<*>, KClass<*>>) {
-		this.registry.putAll(registry)
 	}
 
 	override fun commandHandlers(): CommandHandlers = registry

@@ -20,7 +20,7 @@ Let's suppose we want to test the application that uses in memory implementation
 Well, we start the ``in-memory-bus`` example application and PostgreSQL.
 
 ```sh
-$ docker compose up -d in-memory-bus postgresql
+$ docker compose up -d in-memory postgresql
 ```
 
 Then, install ``virtualenv`` if it is not installed

@@ -1,4 +1,4 @@
-package io.github.magonxesp.example.service
+package io.github.magonxesp.example.service.handlers
 
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.example.model.UserCommand

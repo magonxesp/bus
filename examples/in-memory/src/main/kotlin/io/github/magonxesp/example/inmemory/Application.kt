@@ -1,7 +1,6 @@
-package io.github.magonxesp.example
+package io.github.magonxesp.example.inmemory
 
 import io.github.magonxesp.example.plugins.configureDatabase
-import io.github.magonxesp.example.plugins.configureDependencyInjection
 import io.github.magonxesp.example.plugins.configureRouting
 import io.github.magonxesp.example.plugins.configureSerialization
 import io.ktor.server.application.*

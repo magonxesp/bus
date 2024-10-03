@@ -26,13 +26,11 @@ class UserRepository(private val database: Database) {
 			UsersTable.update(where = { UsersTable.id eq user.id }) {
 				it[id] = user.id
 				it[name] = user.name
-				it[role] = user.role
 			}
 		} else {
 			UsersTable.insert {
 				it[id] = user.id
 				it[name] = user.name
-				it[role] = user.role
 			}
 		}
 	}

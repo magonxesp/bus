@@ -42,3 +42,4 @@ test_tmp
 /venv
 !/sql/.gitkeep
 .kotlin
+docker-compose.override.yml

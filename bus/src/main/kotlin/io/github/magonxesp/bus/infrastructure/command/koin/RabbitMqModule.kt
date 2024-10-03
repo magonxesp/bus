@@ -9,6 +9,7 @@ import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandBus
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandConsumer
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
+import io.github.magonxesp.bus.infrastructure.shared.koin.KoinDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfiguration
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionConfiguration
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionFactory
@@ -61,7 +62,7 @@ fun rabbitMqCommandBusModule(
 	)
 
 	val registry = InMemoryCommandRegistry().apply {
-		setHandlers(commandHandlers)
+		registry = commandHandlers.toMutableMap()
 	}
 
 	return module {
