@@ -29,10 +29,9 @@ Then, install ``virtualenv`` if it is not installed
 $ pip install virtualenv
 ```
 
-Run ``create-env`` action under ``performance-test`` directory
+Run ``create-env`` action
 
 ```sh
-$ cd performance-test
 $ make create-env
 ```
 
@@ -40,5 +39,5 @@ Activate the virtualenv and run locust
 
 ```sh
 $ souce venv/bin/activate
-(venv) $ locust
+(venv) $ locust -f performance-test/locustfile.py
 ```

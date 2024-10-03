@@ -38,7 +38,7 @@ bin/
 ### Mac OS ###
 .DS_Store
 test_tmp
-/performance-test/sql/*
-/performance-test/venv
-!/performance-test/sql/.gitkeep
+/sql/*
+/venv
+!/sql/.gitkeep
 .kotlin
