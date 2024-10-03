@@ -1,6 +1,8 @@
-package io.github.magonxesp.example.inmemorybus.repository
+package io.github.magonxesp.example.repository
 
-import io.github.magonxesp.example.inmemorybus.model.*
+import io.github.magonxesp.example.model.Book
+import io.github.magonxesp.example.model.BooksTable
+import io.github.magonxesp.example.model.toBookEntity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll

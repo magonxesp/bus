@@ -1,7 +1,8 @@
-package io.github.magonxesp.example.inmemorybus.model
+package io.github.magonxesp.example.model
 
 
-import io.github.magonxesp.example.inmemorybus.plugins.UUIDSerializer
+import io.github.magonxesp.bus.domain.command.Command
+import io.github.magonxesp.example.plugins.UUIDSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
@@ -28,3 +29,16 @@ fun ResultRow.toUserEntity() = User(
 	name = get(UsersTable.name),
 	role = get(UsersTable.role),
 )
+
+@Serializable
+data class UserCommand(
+	val id: String,
+	val name: String,
+	val role: String
+) : Command {
+	fun toUser() = User(
+		id = UUID.fromString(id),
+		name = name,
+		role = role
+	)
+}

@@ -1,8 +1,13 @@
 services:
+  in-memory-bus:
+    build:
+      dockerfile: examples/in-memory-bus/Dockerfile
+      context: .
+    ports:
+      - '8080:8080'
+
   postgresql:
     image: postgres:17.0-alpine
-    ports:
-      - '5432:5432'
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
     environment:

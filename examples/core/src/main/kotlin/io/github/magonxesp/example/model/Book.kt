@@ -1,7 +1,7 @@
-package io.github.magonxesp.example.inmemorybus.model
+package io.github.magonxesp.example.model
 
 
-import io.github.magonxesp.example.inmemorybus.plugins.UUIDSerializer
+import io.github.magonxesp.example.plugins.UUIDSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table

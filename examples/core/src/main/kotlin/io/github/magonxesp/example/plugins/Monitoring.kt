@@ -1,4 +1,4 @@
-package io.github.magonxesp.example.inmemorybus.plugins
+package io.github.magonxesp.example.plugins
 
 import com.codahale.metrics.Slf4jReporter
 import io.ktor.server.application.*

@@ -1,8 +1,8 @@
-package io.github.magonxesp.example.inmemorybus.repository
+package io.github.magonxesp.example.repository
 
-import io.github.magonxesp.example.inmemorybus.model.User
-import io.github.magonxesp.example.inmemorybus.model.UsersTable
-import io.github.magonxesp.example.inmemorybus.model.toUserEntity
+import io.github.magonxesp.example.model.User
+import io.github.magonxesp.example.model.UsersTable
+import io.github.magonxesp.example.model.toUserEntity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll

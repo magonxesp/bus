@@ -1,4 +1,4 @@
-package io.github.magonxesp.example.inmemorybus.plugins
+package io.github.magonxesp.example.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

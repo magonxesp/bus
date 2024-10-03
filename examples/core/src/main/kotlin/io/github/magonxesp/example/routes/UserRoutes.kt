@@ -1,7 +1,8 @@
-package io.github.magonxesp.example.inmemorybus.routes
+package io.github.magonxesp.example.routes
 
-import io.github.magonxesp.example.inmemorybus.model.User
-import io.github.magonxesp.example.inmemorybus.repository.UserRepository
+import io.github.magonxesp.bus.domain.command.CommandBus
+import io.github.magonxesp.example.model.UserCommand
+import io.github.magonxesp.example.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -11,6 +12,7 @@ import java.util.*
 
 fun Routing.userRoutes() {
 	val repository: UserRepository by inject(UserRepository::class.java)
+	val commandBus: CommandBus by inject(CommandBus::class.java)
 
 	get("/users") {
 		val users = repository.findAll()
@@ -29,8 +31,8 @@ fun Routing.userRoutes() {
 	}
 
 	put("/users") {
-		val user = call.receive<User>()
-		repository.save(user)
+		val user = call.receive<UserCommand>()
+		commandBus.dispatch(user)
 		call.respond(HttpStatusCode.OK)
 	}
 }

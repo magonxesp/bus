@@ -1,9 +1,7 @@
-package io.github.magonxesp.example.inmemorybus.routes
+package io.github.magonxesp.example.routes
 
-import io.github.magonxesp.example.inmemorybus.model.Book
-import io.github.magonxesp.example.inmemorybus.model.User
-import io.github.magonxesp.example.inmemorybus.repository.BookRepository
-import io.github.magonxesp.example.inmemorybus.repository.UserRepository
+import io.github.magonxesp.example.model.Book
+import io.github.magonxesp.example.repository.BookRepository
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
