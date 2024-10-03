@@ -5,7 +5,6 @@ import io.github.magonxesp.bus.domain.command.CommandHandlers
 import io.github.magonxesp.bus.domain.command.CommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.InMemoryCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
-import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemoryReactiveCommandBus
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfiguration
@@ -17,7 +16,7 @@ fun inMemoryCommandBusModule(basePackage: String): Module {
 	return module {
 		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
 		single { ReflectionCommandRegistry(basePackage) } bind CommandRegistry::class
-		single { InMemoryReactiveCommandBus(get(), get()) } bind CommandBus::class
+		single { InMemorySyncCommandBus(get(), get()) } bind CommandBus::class
 	}
 }
 
