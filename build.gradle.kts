@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 group = "io.github.magonxesp"
@@ -24,6 +24,7 @@ dependencies {
 	val test_containers_version: String by project
 	val slf4j_version: String by project
 	val jackson_version: String by project
+	val koin_version: String by project
 
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_corroutines_version")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
@@ -37,7 +38,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-databind:$jackson_version")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version")
-	implementation("io.insert-koin:koin-core:3.5.6")
+	implementation("io.insert-koin:koin-core:$koin_version")
 
 	testImplementation(kotlin("test"))
 	testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")

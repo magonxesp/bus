@@ -1,0 +1,15 @@
+services:
+  postgresql:
+    image: postgres:17.0-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
+
+volumes:
+  postgres:
