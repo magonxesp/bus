@@ -17,5 +17,5 @@ plugins {
 
 rootProject.name = "bus"
 include(":bus")
-include(":examples:core")
+include(":examples:books-marketplace")
 include(":examples:in-memory-bus")
