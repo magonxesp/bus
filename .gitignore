@@ -43,3 +43,6 @@ test_tmp
 !/sql/.gitkeep
 .kotlin
 docker-compose.override.yml
+.env.*
+!.env.example
+.env

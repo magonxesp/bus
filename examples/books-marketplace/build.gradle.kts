@@ -21,6 +21,7 @@ dependencies {
 	val exposed_version: String by project
 	val influxdb_version: String by project
 	val koin_version: String by project
+	val dotenv_version: String by project
 
 	implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
@@ -36,6 +37,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
 	implementation("io.insert-koin:koin-core:$koin_version")
+	implementation("io.github.cdimascio:dotenv-kotlin:$dotenv_version")
 	implementation(project(":bus"))
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

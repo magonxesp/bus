@@ -9,10 +9,10 @@ import org.koin.java.KoinJavaComponent.get
 import java.io.File
 
 fun connectDatabase() = Database.connect(
-	url = "jdbc:postgresql://postgresql:5432/example",
-	user = "example",
+	url = postgreSqlUrl,
+	user = postgreSqlUser,
 	driver = "org.postgresql.Driver",
-	password = "example",
+	password = postgreSqlPassword,
 )
 
 fun setupSchema(database: Database) = transaction(database) {
