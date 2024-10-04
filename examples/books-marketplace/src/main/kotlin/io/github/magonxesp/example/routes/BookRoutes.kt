@@ -28,7 +28,7 @@ fun Routing.bookRoutes() {
 		}
 	}
 
-	put("/books") {
+	put("/book") {
 		val book = call.receive<Book>()
 		repository.save(book)
 		call.respond(HttpStatusCode.OK)

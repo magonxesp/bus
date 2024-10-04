@@ -3,9 +3,12 @@ package io.github.magonxesp.example.plugins
 import io.github.magonxesp.example.repository.*
 import io.github.magonxesp.example.service.BookOfferService
 import io.github.magonxesp.example.service.OrderService
+import io.github.magonxesp.example.service.UserService
 import io.github.magonxesp.example.service.handlers.OrderCreateCommandHandler
 import io.github.magonxesp.example.service.handlers.UserSaveCommandHandler
-import io.github.magonxesp.example.service.listeners.UpdateBookStockOnBookOfferCreated
+import io.github.magonxesp.example.service.listeners.UpdateBookCheapestOfferOnBookOfferCreated
+import io.github.magonxesp.example.service.listeners.UpdateBookCheapestOfferOnOrderCreated
+import io.github.magonxesp.example.service.listeners.UpdateOffersStockOnOrderCreate
 import org.jetbrains.exposed.sql.Database
 import org.koin.core.KoinApplication
 import org.koin.dsl.bind
@@ -24,8 +27,9 @@ val repositoryModule = module {
 }
 
 val servicesModule = module {
-	single { BookOfferService(get(), get()) }
+	single { BookOfferService(get(), get(), get(), get()) }
 	single { OrderService(get(), get(), get(), get()) }
+	single { UserService(get()) }
 }
 
 val handlersModule = module {
@@ -34,7 +38,9 @@ val handlersModule = module {
 }
 
 val listenersModule = module {
-	single { UpdateBookStockOnBookOfferCreated(get()) }
+	single { UpdateBookCheapestOfferOnBookOfferCreated(get()) }
+	single { UpdateBookCheapestOfferOnOrderCreated(get(), get()) }
+	single { UpdateOffersStockOnOrderCreate(get()) }
 }
 
 fun KoinApplication.addAppModules() {

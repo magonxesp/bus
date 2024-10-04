@@ -28,7 +28,7 @@ fun ResultRow.toUserEntity() = User(
 )
 
 @Serializable
-data class UserCommand(
+data class UserSaveCommand(
 	val id: String,
 	val name: String,
 ) : Command {

@@ -11,7 +11,9 @@ object BooksTable : Table(name = "books") {
 	val id = uuid("id")
 	val title = varchar("title", length = 255)
 	val author = varchar("author", length = 255)
-	val stock = integer("stock")
+	val stock = integer("stock").default(0)
+	val price = double("price").default(0.0)
+	val offerId = reference("offer_id", BookOffersTable.id).nullable()
 
 	override val primaryKey = PrimaryKey(id)
 }
@@ -23,6 +25,9 @@ data class Book(
 	val title: String,
 	val author: String,
 	val stock: Int = 0,
+	val price: Double = 0.0,
+	@Serializable(with = UUIDSerializer::class)
+	val offerId: UUID? = null,
 )
 
 fun ResultRow.toBookEntity() = Book(
@@ -30,4 +35,6 @@ fun ResultRow.toBookEntity() = Book(
 	title = get(BooksTable.title),
 	author = get(BooksTable.author),
 	stock = get(BooksTable.stock),
+	price = get(BooksTable.price),
+	offerId = get(BooksTable.offerId),
 )

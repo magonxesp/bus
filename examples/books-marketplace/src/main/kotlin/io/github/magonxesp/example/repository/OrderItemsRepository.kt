@@ -9,6 +9,12 @@ import org.jetbrains.exposed.sql.update
 import java.util.*
 
 class OrderItemsRepository(private val database: Database) {
+	fun findByOrderId(orderId: UUID) = transaction(database) {
+		OrderItemsTable.selectAll()
+			.where { OrderItemsTable.orderId eq orderId }
+			.map { it.toOrderItemEntity() }
+	}
+
 	fun findById(id: UUID) = transaction(database) {
 		OrderItemsTable.selectAll()
 			.where { OrderItemsTable.id eq id }
