@@ -6,6 +6,13 @@ services:
     ports:
       - '8080:8080'
 
+  in-memory-async:
+    build:
+      dockerfile: examples/in-memory-async/Dockerfile
+      context: .
+    ports:
+      - '8081:8080'
+
   postgresql:
     image: postgres:17.0-alpine
     volumes:
