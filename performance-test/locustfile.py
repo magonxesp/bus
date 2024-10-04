@@ -1,28 +1,52 @@
 from locust import HttpUser, task
-from faker import Faker
-from faker.providers import internet, lorem
-import uuid
+import time
+from common import default_headers
+import generators
 
 
-faker = Faker()
-faker.add_provider(internet)
-faker.add_provider(lorem)
+class MobileDeviceUser(HttpUser):
 
-default_headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-}
+    def ensure_user_exists(self, userId):
+        for _ in range(5):
+            with self.client.get(f"/users/{userId}", headers=default_headers, catch_response=True) as response:
+                response.success()
+                if response.status_code == 200:
+                    break
+            time.sleep(3)
 
+    def ensure_book_exists(self, bookId):
+        for _ in range(5):
+            with self.client.get(f"/books/{bookId}", headers=default_headers, catch_response=True) as response:
+                response.success()
+                if response.status_code == 200:
+                    break
+            time.sleep(3)
 
-class HelloWorldUser(HttpUser):
     @task
-    def hello_world(self):
-        self.client.put("/users", json=create_user(), headers=default_headers)
+    def new_user_create_offer(self):
+        # User register into the application
+        user = generators.random_user()
+        self.client.put("/user", json=user, headers=default_headers)
+        time.sleep(1)
+        
+        # User device wait for user is created (max 5 attempts)
+        self.ensure_user_exists(user['id'])
+        time.sleep(1)
 
+        # User see the book catalog
+        self.client.get("/books", headers=default_headers)
+        time.sleep(1)
 
-def create_user():
-    return {
-        'id': str(uuid.uuid4()),
-        'name': faker.user_name(),
-        'role': faker.word()
-    }
+        # Click to the new offer button and fill the new offer form
+        book = generators.random_book()
+        self.client.put("/book", json=book, headers=default_headers)
+        time.sleep(1)
+
+        # User device wait for book is created (max 5 attempts)
+        self.ensure_book_exists(book['id'])
+        time.sleep(1)
+
+        # User create the offer
+        offer = generators.random_offer(book['id'], user['id'])
+        self.client.post("/offer", json=offer, headers=default_headers)
+        time.sleep(1)
