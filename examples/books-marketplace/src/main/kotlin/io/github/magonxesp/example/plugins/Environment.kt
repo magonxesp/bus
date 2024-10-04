@@ -8,7 +8,7 @@ private lateinit var dotenv: Dotenv
 
 fun Application.configureEnvironment() {
 	dotenv = dotenv {
-		System.getProperty("dotenv.dir")?.also { directory = it }
+		System.getenv("DOTENV_DIR")?.also { directory = it }
 		ignoreIfMissing = true
 		systemProperties = true
 	}
