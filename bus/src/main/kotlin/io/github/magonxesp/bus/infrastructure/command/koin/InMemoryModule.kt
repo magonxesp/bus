@@ -5,6 +5,7 @@ import io.github.magonxesp.bus.domain.command.CommandHandlers
 import io.github.magonxesp.bus.domain.command.CommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.InMemoryCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
+import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemoryAsyncCommandBus
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.koin.KoinDependencyInjectionHelper
@@ -18,6 +19,14 @@ fun inMemoryCommandBusModule(basePackage: String): Module {
 		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
 		single { ReflectionCommandRegistry(basePackage) } bind CommandRegistry::class
 		single { InMemorySyncCommandBus(get(), get()) } bind CommandBus::class
+	}
+}
+
+fun inMemoryAsyncCommandBusModule(basePackage: String): Module {
+	return module {
+		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
+		single { ReflectionCommandRegistry(basePackage) } bind CommandRegistry::class
+		single { InMemoryAsyncCommandBus(get(), get()) } bind CommandBus::class
 	}
 }
 

@@ -5,13 +5,12 @@ import io.github.magonxesp.bus.domain.command.CommandBus
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.command.CommandRegistry
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
-class InMemoryReactiveCommandBus(
+class InMemoryAsyncCommandBus(
 	private val registry: CommandRegistry,
 	private val dependencyInjectionHelper: BusDependencyInjectionHelper
 ) : CommandBus {

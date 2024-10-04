@@ -20,6 +20,15 @@ fun inMemoryDomainEventBusModule(basePackage: String): Module {
 	}
 }
 
+fun inMemoryAsyncDomainEventBusModule(basePackage: String): Module {
+	return module {
+		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
+		single { ReflectionDomainEventRegistry(basePackage) } bind DomainEventRegistry::class
+		single { InMemorySyncDomainEventBus(get(), get()) } bind DomainEventBus::class
+		// TODO: create async implementation
+	}
+}
+
 fun inMemoryCommandBusModule(
 	subscribers: DomainEventSubscribers,
 ): Module {
