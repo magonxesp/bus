@@ -11,8 +11,9 @@ import org.jetbrains.exposed.sql.update
 import java.util.*
 
 class BookRepository(private val database: Database) {
-	fun findAll() = transaction(database) {
+	fun findAll(page: Int = 1, pageSize: Int = 50) = transaction(database) {
 		BooksTable.selectAll()
+			.limit(pageSize, ((page - 1) * pageSize).toLong())
 			.map { it.toBookEntity() }
 	}
 
@@ -28,6 +29,8 @@ class BookRepository(private val database: Database) {
 				it[title] = book.title
 				it[author] = book.author
 				it[stock] = book.stock
+				it[price] = book.price
+				it[offerId] = book.offerId
 			}
 		} else {
 			BooksTable.insert {
@@ -35,6 +38,8 @@ class BookRepository(private val database: Database) {
 				it[title] = book.title
 				it[author] = book.author
 				it[stock] = book.stock
+				it[price] = book.price
+				it[offerId] = book.offerId
 			}
 		}
 	}
