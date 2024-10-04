@@ -3,6 +3,7 @@ package io.github.magonxesp.example.plugins
 import io.github.magonxesp.example.repository.*
 import io.github.magonxesp.example.service.BookOfferService
 import io.github.magonxesp.example.service.OrderService
+import io.github.magonxesp.example.service.handlers.OrderCreateCommandHandler
 import io.github.magonxesp.example.service.handlers.UserSaveCommandHandler
 import io.github.magonxesp.example.service.listeners.UpdateBookStockOnBookOfferCreated
 import org.jetbrains.exposed.sql.Database
@@ -24,11 +25,12 @@ val repositoryModule = module {
 
 val servicesModule = module {
 	single { BookOfferService(get(), get()) }
-	single { OrderService(get(), get()) }
+	single { OrderService(get(), get(), get(), get()) }
 }
 
 val handlersModule = module {
 	single { UserSaveCommandHandler(get()) }
+	single { OrderCreateCommandHandler(get()) }
 }
 
 val listenersModule = module {

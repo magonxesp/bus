@@ -27,11 +27,13 @@ class OrderRepository(private val database: Database) {
 			OrdersTable.update(where = { OrdersTable.id eq order.id }) {
 				it[id] = order.id
 				it[userId] = order.userId
+				it[total] = order.total
 			}
 		} else {
 			OrdersTable.insert {
 				it[id] = order.id
 				it[userId] = order.userId
+				it[total] = order.total
 			}
 		}
 	}

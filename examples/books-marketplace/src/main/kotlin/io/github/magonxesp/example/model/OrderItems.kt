@@ -1,5 +1,6 @@
 package io.github.magonxesp.example.model
 
+import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.example.plugins.UUIDSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ResultRow
@@ -39,3 +40,10 @@ fun ResultRow.toOrderItemEntity() = OrderItem(
 	offerId = get(OrderItemsTable.offerId),
 	orderId = get(OrderItemsTable.orderId),
 )
+
+@Serializable
+data class OrderItemSelectCommand(
+	@Serializable(with = UUIDSerializer::class)
+	val offerId: UUID,
+	val quantity: Int
+) : Command
