@@ -5,7 +5,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.util.*
 
-abstract class DomainEvent : BusMessage(), Comparable<Long> {
+abstract class DomainEvent : BusMessage(), Comparable<DomainEvent> {
 	open var occurredOn: Instant = Clock.System.now()
 		internal set
 
@@ -14,10 +14,13 @@ abstract class DomainEvent : BusMessage(), Comparable<Long> {
 
 	abstract val eventName: String
 
-	override fun compareTo(other: Long): Int = occurredOn.toEpochMilliseconds().let {
-		when {
-			it < other -> 1
-			it > other -> -1
+	override fun compareTo(other: DomainEvent): Int {
+		val occurredOnMs = occurredOn.toEpochMilliseconds()
+		val otherOccurredOnMs = other.occurredOn.toEpochMilliseconds()
+
+		return when {
+			occurredOnMs < otherOccurredOnMs -> 1
+			occurredOnMs > otherOccurredOnMs -> -1
 			else -> 0
 		}
 	}
