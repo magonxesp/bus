@@ -27,11 +27,9 @@ class InMemoryAsyncCommandBus(
 		thread {
 			logger.info("Waiting for new commands of $commandType")
 
-			runBlocking {
-				while (true) {
-					val command = queue.take()
-					launch { handleCommand(command) }
-				}
+			while (true) {
+				val command = queue.take()
+				handleCommand(command)
 			}
 		}
 
