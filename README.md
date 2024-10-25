@@ -19,6 +19,8 @@ The application is an API built with Ktor, the endpoints with method ``PUT`` and
 
 Although, the endpoints with ``GET`` method are fully synchronous.
 
+The PostgreSQL database doesn't use foreign keys for allow concurrent inserts without throwing errors of foreign key violations.
+
 ### Example applications available
 
 * *in-memory*: Uses the sync in memory bus implementation.
