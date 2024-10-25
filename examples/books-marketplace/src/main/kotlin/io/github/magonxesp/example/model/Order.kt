@@ -38,7 +38,7 @@ data class OrderCreateCommand(
 	@Serializable(with = UUIDSerializer::class)
 	val userId: UUID,
 	val items: List<OrderItemSelectCommand>
-) : Command
+) : Command()
 
 data class OrderCreatedEvent(
 	val orderId: UUID

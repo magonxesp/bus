@@ -46,4 +46,4 @@ data class OrderItemSelectCommand(
 	@Serializable(with = UUIDSerializer::class)
 	val offerId: UUID,
 	val quantity: Int
-) : Command
+) : Command()

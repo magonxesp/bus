@@ -4,4 +4,4 @@ data class UserCreateCommand(
 	val username: String,
 	val email: String,
 	val roles: Set<String>,
-) : Command
+) : Command()

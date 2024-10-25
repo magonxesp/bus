@@ -2,7 +2,7 @@ package io.github.magonxesp.bus.domain.command
 
 data class TaskListCreateCommand(
 	val tasks: List<Task>
-) : Command {
+) : Command() {
 	data class Task(
 		val title: String,
 		val status: String,

@@ -31,7 +31,7 @@ fun ResultRow.toUserEntity() = User(
 data class UserSaveCommand(
 	val id: String,
 	val name: String,
-) : Command {
+) : Command() {
 	fun toUser() = User(
 		id = UUID.fromString(id),
 		name = name,

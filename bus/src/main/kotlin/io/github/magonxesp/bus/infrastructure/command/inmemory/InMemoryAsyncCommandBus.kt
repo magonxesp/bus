@@ -8,32 +8,40 @@ import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDepe
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.PriorityQueue
+import java.util.concurrent.PriorityBlockingQueue
 import kotlin.concurrent.thread
 
 class InMemoryAsyncCommandBus(
-	private val registry: CommandRegistry,
-	private val dependencyInjectionHelper: BusDependencyInjectionHelper
+	registry: CommandRegistry,
+	dependencyInjectionHelper: BusDependencyInjectionHelper
 ) : CommandBus {
-	private val commands = MutableSharedFlow<Command>()
+	companion object {
+		private val queue = PriorityBlockingQueue<Command>()
+		private var isQueueProcessing = false
 
-	init {
-		startListenToCommands()
-	}
+		private fun processQueue(registry: CommandRegistry, dependencyInjectionHelper: BusDependencyInjectionHelper) {
+			if (isQueueProcessing) return
 
-	private fun startListenToCommands() {
-		thread {
-			runBlocking {
-				commands.collect { command ->
+			thread {
+				while (true) {
+					val command = queue.take()
 					val commandHandlers = registry.commandHandlers()
 					val handlerClass = commandHandlers[command::class] ?: throw RuntimeException("Command handler for ${command::class} not found")
 					val handlerInstance = dependencyInjectionHelper.get<CommandHandler<Command>>(handlerClass)
-					launch { handlerInstance.handle(command) }
+					handlerInstance.handle(command)
 				}
 			}
+
+			isQueueProcessing = true
 		}
 	}
 
+	init {
+		processQueue(registry, dependencyInjectionHelper)
+	}
+
 	override fun dispatch(command: Command) {
-		commands.tryEmit(command)
+		queue.add(command)
 	}
 }
