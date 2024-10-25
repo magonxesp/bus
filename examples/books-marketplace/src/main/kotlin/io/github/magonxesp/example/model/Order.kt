@@ -10,7 +10,7 @@ import java.util.UUID
 
 object OrdersTable : Table(name = "orders") {
 	val id = uuid("id")
-	val userId = reference("user_id", UsersTable.id)
+	val userId = uuid("user_id")
 	val total = double("total")
 
 	override val primaryKey = PrimaryKey(id)

@@ -10,8 +10,8 @@ import java.util.*
 
 object BookOffersTable : Table(name = "book_offers") {
 	val id = uuid("id")
-	val bookId = reference("book_id", BooksTable.id)
-	val sellerId = reference("seller_id", UsersTable.id)
+	val bookId = uuid("book_id")
+	val sellerId = uuid("seller_id")
 	val price = double("price")
 	val stock = integer("stock")
 

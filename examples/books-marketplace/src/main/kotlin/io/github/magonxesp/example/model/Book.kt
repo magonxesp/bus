@@ -13,7 +13,7 @@ object BooksTable : Table(name = "books") {
 	val author = varchar("author", length = 255)
 	val stock = integer("stock").default(0)
 	val price = double("price").default(0.0)
-	val offerId = reference("offer_id", BookOffersTable.id).nullable()
+	val offerId = uuid("offer_id").nullable()
 
 	override val primaryKey = PrimaryKey(id)
 }

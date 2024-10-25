@@ -9,11 +9,11 @@ import java.util.UUID
 
 object OrderItemsTable : Table(name = "order_items") {
 	val id = uuid("id")
-	val bookId = reference("book_id", BooksTable.id)
+	val bookId = uuid("book_id")
 	val quantity = integer("quantity")
 	val totalPrice = double("total_price")
-	val offerId = reference("offer_id", BookOffersTable.id)
-	val orderId = reference("order_id", OrdersTable.id)
+	val offerId = uuid("offer_id")
+	val orderId = uuid("order_id")
 
 	override val primaryKey = PrimaryKey(id)
 }
