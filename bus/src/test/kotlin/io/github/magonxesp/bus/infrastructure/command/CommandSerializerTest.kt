@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import java.util.*
 
 class CommandSerializerTest : IntegrationTestCase() {
-	private val commandSerializer = CommandSerializer(commandRegistry)
+	private val commandSerializer = CommandSerializer()
 
 	init {
 		test("it should serialize and deserialize command") {
