@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import org.json.JSONObject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
@@ -22,41 +23,21 @@ fun String.deserializeCommand(klass: KClass<*>): Command<*> {
 	return objectMapper.readValue(this, klass.java) as Command<*>
 }
 
-class CommandSerializer(private val commandRegistry: CommandRegistry) {
-	private val commandSerializerModule
-		get() = SerializersModule {
-			polymorphic(Command::class) {
-				commandRegistry.commandHandlers().forEach { entry ->
-					subclass(entry.key as KClass<Command<Any>>)
-				}
-			}
-		}
-
-	private val json
-		get() = Json {
-			ignoreUnknownKeys = true
-			encodeDefaults = true
-			serializersModule = commandSerializerModule
-		}
-
+class CommandSerializer {
 	private val objectMapper = createJacksonObjectMapperInstance()
 
 	fun serialize(command: Command<*>): String {
-		return objectMapper.writeValueAsString(command)
+		val encoded = objectMapper.writeValueAsString(command)
+		val jsonObject = JSONObject(encoded)
+		jsonObject.put("_type", command::class.qualifiedName!!)
+		return jsonObject.toString()
 	}
+
 	fun deserialize(encoded: String): Command<*> {
-		var catchedException: Exception? = null
-		val handlers = commandRegistry.commandHandlers().entries
+		val jsonObject = JSONObject(encoded)
+		val type = Class.forName(jsonObject.getString("_type"))
+		jsonObject.remove("_type")
 
-		for (entry in handlers) {
-			try {
-				val commandClass = entry.key
-				return objectMapper.readValue(encoded, commandClass.java) as Command<*>
-			} catch (exception: Exception) {
-				catchedException = exception
-			}
-		}
-
-		throw catchedException!!
+		return objectMapper.readValue(jsonObject.toString(), type) as Command<*>
 	}
 }
