@@ -25,7 +25,7 @@ abstract class IntegrationTestCase : FunSpec() {
 			Path(directory.path, this::class.qualifiedName!!).writeText("")
 		}
 
-		fun CommandHandler<*>.notifyConsumed(command: Command) {
+		fun CommandHandler<*>.notifyConsumed(command: Command<*>) {
 			val directory = Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "command", command::class.qualifiedName!!).toFile().apply { mkdirs() }
 			Path(directory.path, this::class.qualifiedName!!).writeText("")
 		}
@@ -42,7 +42,7 @@ abstract class IntegrationTestCase : FunSpec() {
 	 * When a test command handler is dispatched It will write a file, then we should
 	 * check if the file exists for ensure the handler is fired
 	 */
-	protected fun Command.isConsumedBy(klass: KClass<*>): Boolean =
+	protected fun Command<*>.isConsumedBy(klass: KClass<*>): Boolean =
 		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "command", this::class.qualifiedName!!, klass.qualifiedName!!).exists()
 
 	protected val domainEventRegistry = ReflectionDomainEventRegistry("io.github.magonxesp.bus")

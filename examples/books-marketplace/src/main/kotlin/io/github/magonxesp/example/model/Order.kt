@@ -32,13 +32,18 @@ fun ResultRow.toOrderEntity() = Order(
 )
 
 @Serializable
-data class OrderCreateCommand(
+data class OrderCreateRequest(
 	@Serializable(with = UUIDSerializer::class)
 	val id: UUID,
 	@Serializable(with = UUIDSerializer::class)
 	val userId: UUID,
 	val items: List<OrderItemSelectCommand>
-) : Command()
+)
+
+@Serializable
+data class OrderCreateCommand(
+	override val data: OrderCreateRequest
+) : Command<OrderCreateRequest>()
 
 data class OrderCreatedEvent(
 	val orderId: UUID

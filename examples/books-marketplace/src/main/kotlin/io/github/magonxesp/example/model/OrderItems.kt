@@ -42,8 +42,13 @@ fun ResultRow.toOrderItemEntity() = OrderItem(
 )
 
 @Serializable
-data class OrderItemSelectCommand(
+data class OrderItemSelectRequest(
 	@Serializable(with = UUIDSerializer::class)
 	val offerId: UUID,
 	val quantity: Int
-) : Command()
+)
+
+@Serializable
+data class OrderItemSelectCommand(
+	override val data: OrderItemSelectRequest
+) : Command<OrderItemSelectRequest>()

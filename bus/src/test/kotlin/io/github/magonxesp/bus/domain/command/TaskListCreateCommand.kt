@@ -1,8 +1,12 @@
 package io.github.magonxesp.bus.domain.command
 
-data class TaskListCreateCommand(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class TaskListCreateRequest(
 	val tasks: List<Task>
-) : Command() {
+) {
+	@Serializable
 	data class Task(
 		val title: String,
 		val status: String,
@@ -10,7 +14,13 @@ data class TaskListCreateCommand(
 		val assignee: User
 	)
 
+	@Serializable
 	data class User(
 		val id: String
 	)
 }
+
+@Serializable
+data class TaskListCreateCommand(
+	override val data: TaskListCreateRequest
+) : Command<TaskListCreateRequest>()

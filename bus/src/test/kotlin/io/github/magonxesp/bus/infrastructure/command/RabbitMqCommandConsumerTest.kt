@@ -3,6 +3,7 @@ package io.github.magonxesp.bus.infrastructure.command
 import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
 import io.github.magonxesp.bus.domain.command.UserCreateCommand
 import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
+import io.github.magonxesp.bus.domain.command.randomUserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandBus
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandConsumer
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.TestDependencyInjectionContainer
@@ -23,11 +24,7 @@ class RabbitMqCommandConsumerTest : RabbitMqIntegrationTestCase() {
 
 	init {
 	    test("it should consume commands") {
-			val command = UserCreateCommand(
-				username = random().random.randomString(30),
-				email = random().internet.email(),
-				roles = setOf("GUEST", "VISITOR")
-			)
+			val command = randomUserCreateCommand()
 
 			commandBus.dispatch(command)
 			commandConsumer.startConsume()

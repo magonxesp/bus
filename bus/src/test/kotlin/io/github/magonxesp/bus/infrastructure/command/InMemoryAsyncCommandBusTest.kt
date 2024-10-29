@@ -3,6 +3,8 @@ package io.github.magonxesp.bus.infrastructure.command
 import io.github.magonxesp.bus.IntegrationTestCase
 import io.github.magonxesp.bus.domain.command.UserCreateCommand
 import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
+import io.github.magonxesp.bus.domain.command.UserCreateRequest
+import io.github.magonxesp.bus.domain.command.randomUserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemoryAsyncCommandBus
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.TestDependencyInjectionContainer
@@ -15,11 +17,7 @@ class InMemoryAsyncCommandBusTest : IntegrationTestCase() {
 
 	init {
 	    test("it should dispatch and consume the command") {
-			val command = UserCreateCommand(
-				username = random().random.randomString(30),
-				email = random().internet.email(),
-				roles = setOf("GUEST", "VISITOR")
-			)
+			val command = randomUserCreateCommand()
 
 			bus.dispatch(command)
 			delay(1000)

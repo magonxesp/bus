@@ -28,12 +28,19 @@ fun ResultRow.toUserEntity() = User(
 )
 
 @Serializable
-data class UserSaveCommand(
+data class UserSaveRequest(
 	val id: String,
 	val name: String,
-) : Command() {
+) {
 	fun toUser() = User(
 		id = UUID.fromString(id),
 		name = name,
 	)
+}
+
+@Serializable
+data class UserSaveCommand(
+	override val data: UserSaveRequest
+) : Command<UserSaveRequest>() {
+	fun toUser() = data.toUser()
 }

@@ -2,7 +2,7 @@ package io.github.magonxesp.bus.infrastructure.event
 
 import io.github.magonxesp.bus.domain.shared.attribute.Attributes
 import io.github.magonxesp.bus.domain.event.DomainEvent
-import io.github.magonxesp.bus.infrastructure.shared.createJacksonObjectMapperInstance
+import io.github.magonxesp.bus.infrastructure.shared.serialization.createJacksonObjectMapperInstance
 import kotlinx.datetime.Instant
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance

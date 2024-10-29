@@ -8,7 +8,7 @@ import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.bus.domain.command.CommandConsumer
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.command.CommandRegistry
-import io.github.magonxesp.bus.infrastructure.command.deserializeCommand
+import io.github.magonxesp.bus.infrastructure.command.deserializeDispatchedCommand
 import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConfiguration
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionFactory
@@ -24,7 +24,7 @@ class RabbitMqCommandConsumer(
 	class HandlerConsumer(
 		channel: Channel,
 		private val commandClass: KClass<*>,
-		private val commandHandler: CommandHandler<Command>
+		private val commandHandler: CommandHandler<Command<*>>
 	) : DefaultConsumer(channel) {
 		private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -32,9 +32,9 @@ class RabbitMqCommandConsumer(
 			val deliveryTag = envelope?.deliveryTag ?: return
 
 			try {
-				val commandJson = body?.decodeToString() ?: return
-				val command = commandJson.deserializeCommand(commandClass)
-				commandHandler.handle(command)
+				//val commandJson = body?.decodeToString() ?: return
+				//val dispatchedCommand = commandJson.deserializeDispatchedCommand()
+				//commandHandler.handle(dispatchedCommand.data)
 				channel.basicAck(deliveryTag, false)
 			} catch (exception: Exception) {
 				logger.warn("${exception::class}: ${exception.message}")
@@ -51,7 +51,7 @@ class RabbitMqCommandConsumer(
 		var stop = false
 
 		for ((commandClass, commandHandlerClass) in commandHandlers) {
-			val commandHandler = dependencyInjectionHelper.get<CommandHandler<Command>>(commandHandlerClass)
+			val commandHandler = dependencyInjectionHelper.get<CommandHandler<Command<*>>>(commandHandlerClass)
 			val consumer = HandlerConsumer(channel, commandClass, commandHandler)
 			consumers.add(channel.basicConsume(commandHandlerClass.handlerQueueName, false, consumer))
 		}

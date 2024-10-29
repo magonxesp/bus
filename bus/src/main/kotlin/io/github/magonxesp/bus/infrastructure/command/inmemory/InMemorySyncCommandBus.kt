@@ -10,10 +10,10 @@ class InMemorySyncCommandBus(
 	private val registry: CommandRegistry,
 	private val dependencyInjectionHelper: BusDependencyInjectionHelper
 ) : CommandBus {
-	override fun dispatch(command: Command) {
+	override fun dispatch(command: Command<*>) {
 		val commandHandlers = registry.commandHandlers()
 		val handlerClass = commandHandlers[command::class] ?: throw RuntimeException("Command handler for ${command::class} not found")
-		val handlerInstance = dependencyInjectionHelper.get<CommandHandler<Command>>(handlerClass)
+		val handlerInstance = dependencyInjectionHelper.get<CommandHandler<Command<*>>>(handlerClass)
 		handlerInstance.handle(command)
 	}
 }

@@ -17,31 +17,31 @@ class OrderService(
 	private val eventBus: DomainEventBus
 ) {
 	fun create(createOrder: OrderCreateCommand) {
-		val items = createOrder.items.map {
-			val offer = offerRepository.findById(it.offerId)
+		val items = createOrder.data.items.map {
+			val offer = offerRepository.findById(it.data.offerId)
 				?: error("The offer selected is not available")
 
-			if (it.quantity <= 0) {
+			if (it.data.quantity <= 0) {
 				error("The quantity must be greater than 0")
 			}
 
-			if (it.quantity > offer.stock) {
+			if (it.data.quantity > offer.stock) {
 				error("Quantity is greater than stock available in the offer")
 			}
 
 			OrderItem(
 				id = UUID.randomUUID(),
-				offerId = it.offerId,
-				quantity = it.quantity,
+				offerId = it.data.offerId,
+				quantity = it.data.quantity,
 				bookId = offer.bookId,
-				orderId = createOrder.id,
-				totalPrice = offer.price * it.quantity
+				orderId = createOrder.data.id,
+				totalPrice = offer.price * it.data.quantity
 			)
 		}
 
 		val order = Order(
-			id = createOrder.id,
-			userId = createOrder.userId,
+			id = createOrder.data.id,
+			userId = createOrder.data.userId,
 			total = items.sumOf { it.totalPrice }
 		)
 
