@@ -4,6 +4,8 @@ import io.github.magonxesp.bus.infrastructure.command.koin.rabbitMqCommandBusMod
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandQueueAutoDeclaration
 import io.kotest.core.spec.Spec
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.java.KoinJavaComponent.inject
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.RabbitMQContainer
 import org.testcontainers.utility.DockerImageName
@@ -13,7 +15,6 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 
 	companion object {
 		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:3.13.1-management-alpine"))
-		var koinStarted = false
 	}
 
 	private fun startRabbitMq() {
@@ -26,20 +27,21 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 	}
 
 	private fun setupRabbitMqBus() {
-		if (koinStarted) return
-
-		val koin = startKoin {
-			rabbitMqCommandBusModule {
-				username = rabbitmq.adminUsername
-				password = rabbitmq.adminPassword
-				port = rabbitmq.amqpPort
-				basePackage = "io.github.magonxesp.bus"
-			}
+		stopKoin()
+		val koinApplication = startKoin {
+			modules(
+				CommandHandlersModule,
+				DomainEventSubscribersModule,
+				rabbitMqCommandBusModule {
+					username = rabbitmq.adminUsername
+					password = rabbitmq.adminPassword
+					port = rabbitmq.amqpPort
+					basePackage = "io.github.magonxesp.bus"
+				}
+			)
 		}
 
-		koin.koin.get<RabbitMqCommandQueueAutoDeclaration>().apply { declareAllQueues() }
-
-		koinStarted = true
+		koinApplication.koin.get<RabbitMqCommandQueueAutoDeclaration>().apply { declareAllQueues() }
 	}
 
 	override suspend fun beforeSpec(spec: Spec) {

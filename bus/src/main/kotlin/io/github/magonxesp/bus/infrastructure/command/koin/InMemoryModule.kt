@@ -10,6 +10,7 @@ import org.koin.dsl.module
 
 class InMemoryBusConfiguration : BusConfiguration() {
 	var async: Boolean = false
+	var asyncMaxQueueItems: Int = 100
 }
 
 @Deprecated("use inMemoryBusModule instead")
@@ -32,10 +33,9 @@ fun inMemoryCommandBusModule(configure: InMemoryBusConfiguration.() -> Unit): Mo
 }
 
 private fun Module.commandBusImplementation(configuration: InMemoryBusConfiguration) {
-	single {
-		when {
-			configuration.async -> InMemoryAsyncCommandBus(get())
-			else -> InMemorySyncCommandBus(get())
-		}
-	} bind CommandBus::class
+	if (configuration.async) {
+		single { InMemoryAsyncCommandBus(get(), configuration.asyncMaxQueueItems) } bind CommandBus::class
+	} else {
+		single { InMemorySyncCommandBus(get()) } bind CommandBus::class
+	}
 }

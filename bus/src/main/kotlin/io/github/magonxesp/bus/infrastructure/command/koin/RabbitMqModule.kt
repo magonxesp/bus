@@ -17,7 +17,7 @@ fun rabbitMqCommandBusModule(configure: RabbitMqBusConfiguration.() -> Unit): Mo
 	rabbitMqConnectionFactory(configuration)
 
 	single { RabbitMqCommandQueueAutoDeclaration(get(), get(), get()) }
-	single { DefaultRabbitMqCommandQueueResolver(get()) } bind RabbitMqCommandQueueResolver::class
+	single { DefaultRabbitMqCommandQueueResolver(configuration.queuePrefix) } bind RabbitMqCommandQueueResolver::class
 	single { RabbitMqCommandBus(get(), get(), get(), get()) } bind CommandBus::class
 	single { RabbitMqCommandConsumer(get(), get(), get(), get(), get()) } bind CommandConsumer::class
 }

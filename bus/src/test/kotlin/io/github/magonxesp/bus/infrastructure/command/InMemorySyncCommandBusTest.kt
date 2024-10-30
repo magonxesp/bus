@@ -1,17 +1,14 @@
 package io.github.magonxesp.bus.infrastructure.command
 
-import io.github.magonxesp.bus.IntegrationTestCase
-import io.github.magonxesp.bus.domain.command.UserCreateCommand
+import io.github.magonxesp.bus.InMemoryIntegrationTestCase
 import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
-import io.github.magonxesp.bus.domain.command.UserCreateRequest
 import io.github.magonxesp.bus.domain.command.randomUserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
-import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.TestDependencyInjectionContainer
-import io.github.magonxesp.bus.random
 import io.kotest.matchers.shouldBe
+import org.koin.java.KoinJavaComponent.inject
 
-class InMemorySyncCommandBusTest : IntegrationTestCase() {
-	private val bus = InMemorySyncCommandBus(commandRegistry, TestDependencyInjectionContainer())
+class InMemorySyncCommandBusTest : InMemoryIntegrationTestCase() {
+	private val bus by inject<InMemorySyncCommandBus>(InMemorySyncCommandBus::class.java)
 
 	init {
 	    test("it should dispatch and consume the command") {

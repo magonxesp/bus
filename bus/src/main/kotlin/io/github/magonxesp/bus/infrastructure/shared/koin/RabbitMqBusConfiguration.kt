@@ -9,4 +9,5 @@ class RabbitMqBusConfiguration : BusConfiguration() {
 	var port: Int = 5672
 	var virtualHost: String? = null
 	var connection: Connection? = null
+	var queuePrefix: String = ""
 }

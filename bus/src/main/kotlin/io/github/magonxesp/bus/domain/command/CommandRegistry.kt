@@ -4,5 +4,5 @@ interface CommandRegistry {
 	/**
 	 * Get the command handlers
 	 */
-	fun commandHandlers(): CommandHandlers
+	fun commandHandlers(): Map<CommandClass, CommandHandlerClass>
 }

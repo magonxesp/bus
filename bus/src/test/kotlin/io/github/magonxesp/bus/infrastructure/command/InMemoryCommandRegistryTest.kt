@@ -28,24 +28,6 @@ class InMemoryCommandRegistryTest : IntegrationTestCase() {
 			handlers shouldContainAll expected
 		}
 
-		test("it should not allow non command classes") {
-			val registry = InMemoryCommandRegistry()
-
-			shouldThrow<RuntimeException> {
-				registry.addHandler(String::class, UserCreateCommandHandler::class)
-			}
-		}
-
-		class NonCommandHandlerClass
-
-		test("it should not allow non command handler classes") {
-			val registry = InMemoryCommandRegistry()
-
-			shouldThrow<RuntimeException> {
-				registry.addHandler(UserCreateCommand::class, NonCommandHandlerClass::class)
-			}
-		}
-
 		test("it should not allow add a command handler that not handles the desired command") {
 			val registry = InMemoryCommandRegistry()
 

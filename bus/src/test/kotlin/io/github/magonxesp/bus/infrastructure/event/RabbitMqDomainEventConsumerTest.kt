@@ -11,20 +11,15 @@ import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.TestDep
 import io.kotest.core.spec.Spec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
+import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.exists
 import kotlin.reflect.KClass
 
 class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
-	private lateinit var eventBus: RabbitMqDomainEventBus
-	private lateinit var eventConsumer: RabbitMqDomainEventConsumer
-
-	override suspend fun beforeSpec(spec: Spec) {
-		super.beforeSpec(spec)
-		eventBus = RabbitMqDomainEventBus(connectionFactory)
-		eventConsumer = RabbitMqDomainEventConsumer(domainEventRegistry, TestDependencyInjectionContainer(), connectionFactory)
-	}
+	private val eventBus by inject<RabbitMqDomainEventBus>(RabbitMqDomainEventBus::class.java)
+	private val eventConsumer by inject<RabbitMqDomainEventConsumer>(RabbitMqDomainEventConsumer::class.java)
 
 	init {
 		test("it should consume incoming domain event") {

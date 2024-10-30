@@ -3,16 +3,11 @@ package io.github.magonxesp.bus.infrastructure.event
 import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
 import io.github.magonxesp.bus.domain.event.UserCreated
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventBus
-import io.kotest.core.spec.Spec
+import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
 class RabbitMqDomainEventBusTest : RabbitMqIntegrationTestCase() {
-	private lateinit var eventBus: RabbitMqDomainEventBus
-
-	override suspend fun beforeSpec(spec: Spec) {
-		super.beforeSpec(spec)
-		eventBus = RabbitMqDomainEventBus(connectionFactory)
-	}
+	private val bus by inject<RabbitMqDomainEventBus>(RabbitMqDomainEventBus::class.java)
 
 	init {
 		test("it should publish a domain event") {
@@ -23,7 +18,7 @@ class RabbitMqDomainEventBusTest : RabbitMqIntegrationTestCase() {
 				avatarUrl = "https://avatar.example.com/avatar.png"
 			)
 
-			eventBus.publish(event)
+			bus.publish(event)
 		}
 	}
 }
