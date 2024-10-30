@@ -1,9 +1,6 @@
-package io.github.magonxesp.bus.infrastructure.command
+package io.github.magonxesp.bus.infrastructure.command.registry
 
-import io.github.magonxesp.bus.domain.command.Command
-import io.github.magonxesp.bus.domain.command.CommandHandler
-import io.github.magonxesp.bus.domain.command.CommandHandlers
-import io.github.magonxesp.bus.domain.command.CommandRegistry
+import io.github.magonxesp.bus.domain.command.*
 import io.github.magonxesp.bus.domain.shared.getParameter
 import kotlin.reflect.KClass
 import kotlin.reflect.full.functions
@@ -11,10 +8,10 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.jvm.jvmErasure
 
 class InMemoryCommandRegistry : CommandRegistry {
-	var registry: MutableMap<KClass<*>, KClass<*>> = mutableMapOf()
+	var registry: MutableMap<CommandClass, CommandHandlerClass> = mutableMapOf()
 		internal set
 
-	fun addHandler(command: KClass<*>, commandHandler: KClass<*>) {
+	fun addHandler(command: CommandClass, commandHandler: CommandHandlerClass) {
 		if (!command.isSubclassOf(Command::class)) {
 			throw RuntimeException("The $command must be a subclass of ${Command::class}")
 		}

@@ -1,12 +1,9 @@
 package io.github.magonxesp.bus
 
-import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
-import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandQueueSetup
-import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
-import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventQueueSetup
-import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionConfiguration
-import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqConnectionFactory
+import io.github.magonxesp.bus.infrastructure.command.koin.rabbitMqCommandBusModule
+import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandQueueAutoDeclaration
 import io.kotest.core.spec.Spec
+import org.koin.core.context.startKoin
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.RabbitMQContainer
 import org.testcontainers.utility.DockerImageName
@@ -16,9 +13,10 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 
 	companion object {
 		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:3.13.1-management-alpine"))
+		var koinStarted = false
 	}
 
-	private fun RabbitMQContainer.startAndLog() {
+	private fun startRabbitMq() {
 		rabbitmq.start()
 		logger.debug("RabbitMQ started!")
 		logger.debug("RabbitMQ user: ${rabbitmq.adminUsername}")
@@ -27,25 +25,26 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 		logger.debug("RabbitMQ port (management): ${rabbitmq.httpPort}")
 	}
 
-	protected val connectionFactory: RabbitMqConnectionFactory
-		get() = RabbitMqConnectionFactory(
-			RabbitMqConnectionConfiguration(
-				username = rabbitmq.adminUsername,
-				password = rabbitmq.adminPassword,
+	private fun setupRabbitMqBus() {
+		if (koinStarted) return
+
+		val koin = startKoin {
+			rabbitMqCommandBusModule {
+				username = rabbitmq.adminUsername
+				password = rabbitmq.adminPassword
 				port = rabbitmq.amqpPort
-			)
-		)
+				basePackage = "io.github.magonxesp.bus"
+			}
+		}
 
-	private val domainEventQueueSetup: RabbitMqDomainEventQueueSetup
-		get() = RabbitMqDomainEventQueueSetup(connectionFactory, domainEventRegistry)
+		koin.koin.get<RabbitMqCommandQueueAutoDeclaration>().apply { declareAllQueues() }
 
-	private val commandQueueSetup: RabbitMqCommandQueueSetup
-		get() = RabbitMqCommandQueueSetup(connectionFactory, commandRegistry)
+		koinStarted = true
+	}
 
 	override suspend fun beforeSpec(spec: Spec) {
 		super.beforeSpec(spec)
-		rabbitmq.startAndLog()
-		domainEventQueueSetup.setupQueues()
-		commandQueueSetup.setupQueues()
+		startRabbitMq()
+		setupRabbitMqBus()
 	}
 }

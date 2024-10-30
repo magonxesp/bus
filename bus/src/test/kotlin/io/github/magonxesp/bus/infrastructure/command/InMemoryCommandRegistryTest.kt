@@ -6,6 +6,7 @@ import io.github.magonxesp.bus.domain.command.TaskListCreateCommand
 import io.github.magonxesp.bus.domain.command.TaskListCreateCommandHandler
 import io.github.magonxesp.bus.domain.command.UserCreateCommand
 import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
+import io.github.magonxesp.bus.infrastructure.command.registry.InMemoryCommandRegistry
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.maps.shouldContainAll
 

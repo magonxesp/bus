@@ -11,18 +11,6 @@ import org.json.JSONObject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
-private val objectMapper = createJacksonObjectMapperInstance()
-
-fun Command<*>.serializeToJson() = objectMapper.writeValueAsString(this)
-
-fun String.deserializeCommand(klass: KClass<*>): Command<*> {
-	if (!klass.isSubclassOf(Command::class)) {
-		error("$klass is not a subclass of ${Command::class}")
-	}
-
-	return objectMapper.readValue(this, klass.java) as Command<*>
-}
-
 class CommandSerializer {
 	private val objectMapper = createJacksonObjectMapperInstance()
 

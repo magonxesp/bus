@@ -2,6 +2,8 @@ package io.github.magonxesp.bus.infrastructure.command.rabbitmq
 
 import com.rabbitmq.client.Channel
 import io.github.magonxesp.bus.domain.command.Command
+import io.github.magonxesp.bus.domain.command.CommandHandler
+import io.github.magonxesp.bus.domain.command.CommandHandlerClass
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.shared.camelToSnakeCase
 import io.github.magonxesp.bus.infrastructure.shared.rabbitmq.RabbitMqClient
@@ -31,7 +33,7 @@ abstract class RabbitMqCommandClient(configuration: RabbitMqConfiguration) : Rab
 	 *
 	 * @return The map with the arguments to send failed messages to this dead letter
 	 */
-	private fun Channel.createDeadLetterQueue(commandHandler: KClass<*>): Map<String, String> {
+	private fun Channel.createDeadLetterQueue(commandHandler: CommandHandlerClass): Map<String, String> {
 		exchangeDeclare(deadLetterExchangeName, "direct", true)
 		queueDeclare(commandHandler.deadLetterHandlerQueueName, true, false, false, null)
 		queueBind(
@@ -46,7 +48,7 @@ abstract class RabbitMqCommandClient(configuration: RabbitMqConfiguration) : Rab
 		)
 	}
 
-	protected fun Channel.createQueue(commandHandler: KClass<*>) {
+	protected fun Channel.createQueue(commandHandler: CommandHandlerClass) {
 		val deadLetterArgs = createDeadLetterQueue(commandHandler)
 
 		exchangeDeclare(exchangeName, "direct", true)

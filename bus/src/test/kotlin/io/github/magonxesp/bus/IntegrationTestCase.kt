@@ -4,7 +4,7 @@ import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
-import io.github.magonxesp.bus.infrastructure.command.ReflectionCommandRegistry
+import io.github.magonxesp.bus.infrastructure.command.registry.ReflectionCommandRegistry
 import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase

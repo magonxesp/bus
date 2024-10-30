@@ -1,8 +1,6 @@
-package io.github.magonxesp.bus.infrastructure.command
+package io.github.magonxesp.bus.infrastructure.command.registry
 
-import io.github.magonxesp.bus.domain.command.CommandHandler
-import io.github.magonxesp.bus.domain.command.CommandHandlers
-import io.github.magonxesp.bus.domain.command.CommandRegistry
+import io.github.magonxesp.bus.domain.command.*
 import io.github.magonxesp.bus.domain.shared.getParameter
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners.*
@@ -14,7 +12,7 @@ class ReflectionCommandRegistry(basePackage: String) : CommandRegistry {
 	private val reflections = Reflections(basePackage)
 
 	override fun commandHandlers(): CommandHandlers {
-		val registry = mutableMapOf<KClass<*>, KClass<*>>()
+		val registry = mutableMapOf<CommandClass, CommandHandlerClass>()
 		val commandHandlers = reflections
 			.get(SubTypes.of(CommandHandler::class.java)
 				.asClass<CommandHandler<*>>())
@@ -23,10 +21,10 @@ class ReflectionCommandRegistry(basePackage: String) : CommandRegistry {
 		for (handlerClass in commandHandlers) {
 			val commandClass = handlerClass.functions
 				.filter { it.name == "handle" }
-				.map { it.getParameter("command").type.jvmErasure }
+				.map { it.getParameter("command").type.jvmErasure as CommandClass }
 				.first()
 
-			registry[commandClass] = handlerClass
+			registry[commandClass] = handlerClass as CommandHandlerClass
 		}
 
 		return registry

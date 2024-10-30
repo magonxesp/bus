@@ -1,6 +1,5 @@
 package io.github.magonxesp.bus.infrastructure.shared.rabbitmq
 
-import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 import org.slf4j.LoggerFactory
