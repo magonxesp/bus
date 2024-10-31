@@ -1,10 +1,10 @@
 services:
   backend:
-    image: books_marketplace_in_memory_async:0.0.2
+    image: books_marketplace_in_memory_async:0.0.5
     deploy:
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "1"
           memory: "1G"
     ports:
       - '8081:8080'
