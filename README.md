@@ -28,13 +28,34 @@ The PostgreSQL database doesn't use foreign keys for allow concurrent inserts wi
 
 ## Performance test
 
+### Deploy example application
+
 First you need to run the example application you want to benchmark.
 Let's suppose we want to test the application that uses in memory implementations.
-Well, we start the ``in-memory`` example application and PostgreSQL.
+Well, we start the ``in-memory-async`` example application and PostgreSQL.
+
+#### With docker compose
+```sh
+$ docker compose up -d in-memory-async postgresql
+```
+
+#### With docker swarm
+
+⚠️ Services have the resources limited, change or remove resource limits for your needs ⚠️
+
+Build the image
 
 ```sh
-$ docker compose up -d in-memory postgresql
+$ docker build -f examples/in-memory-async/Dockerfile -t books_marketplace_in_memory_async:latest .
 ```
+
+Edit the stack file replacing the image by the built one. Then deploy the stack.
+
+```sh
+$ docker stack deploy -c deployments/in-memory-async.stack.yml books_marketplace_in_memory_async
+```
+
+### Run the performance test
 
 Then, install ``virtualenv`` if it is not installed
 

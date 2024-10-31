@@ -37,7 +37,7 @@ data class OrderCreateRequest(
 	val id: UUID,
 	@Serializable(with = UUIDSerializer::class)
 	val userId: UUID,
-	val items: List<OrderItemSelectCommand>
+	val items: List<OrderItemSelectRequest>
 )
 
 @Serializable

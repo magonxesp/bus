@@ -47,8 +47,3 @@ data class OrderItemSelectRequest(
 	val offerId: UUID,
 	val quantity: Int
 )
-
-@Serializable
-data class OrderItemSelectCommand(
-	override val data: OrderItemSelectRequest
-) : Command<OrderItemSelectRequest>()

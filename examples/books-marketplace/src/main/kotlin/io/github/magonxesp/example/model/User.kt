@@ -41,6 +41,4 @@ data class UserSaveRequest(
 @Serializable
 data class UserSaveCommand(
 	override val data: UserSaveRequest
-) : Command<UserSaveRequest>() {
-	fun toUser() = data.toUser()
-}
+) : Command<UserSaveRequest>()

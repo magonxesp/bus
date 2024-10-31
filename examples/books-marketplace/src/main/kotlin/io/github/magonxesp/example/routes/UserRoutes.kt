@@ -2,6 +2,7 @@ package io.github.magonxesp.example.routes
 
 import io.github.magonxesp.bus.domain.command.CommandBus
 import io.github.magonxesp.example.model.UserSaveCommand
+import io.github.magonxesp.example.model.UserSaveRequest
 import io.github.magonxesp.example.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -26,8 +27,8 @@ fun Routing.userRoutes() {
 	}
 
 	put("/user") {
-		val user = call.receive<UserSaveCommand>()
-		commandBus.dispatch(user)
+		val user = call.receive<UserSaveRequest>()
+		commandBus.dispatch(UserSaveCommand(user))
 		call.respond(HttpStatusCode.OK)
 	}
 }

@@ -1,0 +1,28 @@
+services:
+  backend:
+    image: books_marketplace_in_memory_async:0.0.2
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
+    ports:
+      - '8081:8080'
+
+  postgresql:
+    image: postgres:17.0-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "1G"
+    volumes:
+      - postgres:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
+
+volumes:
+  postgres:

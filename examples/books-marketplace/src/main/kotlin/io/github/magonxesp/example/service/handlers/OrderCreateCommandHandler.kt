@@ -6,6 +6,6 @@ import io.github.magonxesp.example.service.OrderService
 
 class OrderCreateCommandHandler(private val service: OrderService) : CommandHandler<OrderCreateCommand> {
 	override fun handle(command: OrderCreateCommand) {
-		service.create(command)
+		service.create(command.data)
 	}
 }

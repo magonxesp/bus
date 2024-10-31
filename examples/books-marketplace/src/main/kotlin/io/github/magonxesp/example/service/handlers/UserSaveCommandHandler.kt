@@ -8,6 +8,6 @@ import org.slf4j.LoggerFactory
 
 class UserSaveCommandHandler(private val service: UserService) : CommandHandler<UserSaveCommand> {
 	override fun handle(command: UserSaveCommand) {
-		service.save(command)
+		service.save(command.data)
 	}
 }
