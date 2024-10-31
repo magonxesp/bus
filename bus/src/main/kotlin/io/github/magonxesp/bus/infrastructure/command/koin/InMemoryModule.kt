@@ -13,17 +13,6 @@ class InMemoryCommandBusConfiguration : BusConfiguration() {
 	var asyncMaxQueueItems: Int = 100
 }
 
-@Deprecated("use inMemoryBusModule instead")
-fun inMemoryCommandBusModule(basePackage: String): Module = inMemoryCommandBusModule {
-	this.basePackage = basePackage
-}
-
-@Deprecated("use inMemoryBusModule instead")
-fun inMemoryAsyncCommandBusModule(basePackage: String): Module = inMemoryCommandBusModule {
-	async = true
-	this.basePackage = basePackage
-}
-
 fun inMemoryCommandBusModule(configure: InMemoryCommandBusConfiguration.() -> Unit): Module = module {
 	val configuration = InMemoryCommandBusConfiguration().apply { configure() }
 

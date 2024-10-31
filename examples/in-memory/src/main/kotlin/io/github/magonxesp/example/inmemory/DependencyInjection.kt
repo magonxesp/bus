@@ -10,7 +10,9 @@ fun Application.configureDependencyInjection() {
 	startKoin {
 		addAppModules()
 		modules(
-			inMemoryCommandBusModule("io.github.magonxesp.example"),
+			inMemoryCommandBusModule {
+				basePackage = "io.github.magonxesp.example"
+			},
 			inMemoryDomainEventModule {
 				basePackage = "io.github.magonxesp.example"
 			}
