@@ -4,7 +4,7 @@ import io.github.magonxesp.bus.InMemoryIntegrationTestCase
 import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
 import io.github.magonxesp.bus.domain.command.randomUserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.inmemory.InMemorySyncCommandBus
-import io.kotest.matchers.shouldBe
+import io.github.magonxesp.bus.shouldBeConsumedBy
 import org.koin.java.KoinJavaComponent.inject
 
 class InMemorySyncCommandBusTest : InMemoryIntegrationTestCase() {
@@ -16,7 +16,7 @@ class InMemorySyncCommandBusTest : InMemoryIntegrationTestCase() {
 
 			bus.dispatch(command)
 
-			command.isConsumedBy(UserCreateCommandHandler::class) shouldBe true
+			command shouldBeConsumedBy UserCreateCommandHandler::class
 		}
 	}
 }

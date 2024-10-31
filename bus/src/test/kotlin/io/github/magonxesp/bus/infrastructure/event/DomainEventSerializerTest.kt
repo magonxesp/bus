@@ -3,9 +3,8 @@ package io.github.magonxesp.bus.infrastructure.event
 import io.github.magonxesp.bus.IntegrationTestCase
 import io.github.magonxesp.bus.domain.event.ExampleDomainEvent
 import io.github.magonxesp.bus.domain.event.ExampleNestedDomainEvent
-import io.github.magonxesp.bus.infrastructure.shared.uglifyJson
+import io.github.magonxesp.bus.uglifyJson
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
 
 class DomainEventSerializerTest : IntegrationTestCase() {
 	private val serializer = DomainEventSerializer()

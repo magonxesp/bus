@@ -1,4 +1,4 @@
-package io.github.magonxesp.bus.infrastructure.shared
+package io.github.magonxesp.bus
 
 import org.json.JSONObject
 

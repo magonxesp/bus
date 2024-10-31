@@ -1,6 +1,6 @@
 package io.github.magonxesp.bus.domain.command
 
-import io.github.magonxesp.bus.IntegrationTestCase.Companion.notifyConsumed
+import io.github.magonxesp.bus.markAsConsumed
 import org.slf4j.LoggerFactory
 
 class UserCreateCommandHandler : CommandHandler<UserCreateCommand> {
@@ -8,7 +8,7 @@ class UserCreateCommandHandler : CommandHandler<UserCreateCommand> {
 
 	override fun handle(command: UserCreateCommand) {
 		logger.debug("Command handler {} fired", this::class)
-		notifyConsumed(command)
+		command.markAsConsumed(this::class)
 		logger.debug("Command handler {} finish", this::class)
 	}
 }

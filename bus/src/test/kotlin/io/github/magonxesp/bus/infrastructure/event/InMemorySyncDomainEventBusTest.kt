@@ -1,12 +1,11 @@
 package io.github.magonxesp.bus.infrastructure.event
 
 import io.github.magonxesp.bus.InMemoryIntegrationTestCase
-import io.github.magonxesp.bus.IntegrationTestCase
 import io.github.magonxesp.bus.domain.event.CountTotalUsersOnUserCreated
 import io.github.magonxesp.bus.domain.event.SendWelcomeEmailOnUserCreated
 import io.github.magonxesp.bus.domain.event.UserCreated
 import io.github.magonxesp.bus.infrastructure.event.inmemory.InMemorySyncDomainEventBus
-import io.kotest.matchers.shouldBe
+import io.github.magonxesp.bus.shouldBeConsumedBy
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
@@ -24,8 +23,8 @@ class InMemorySyncDomainEventBusTest : InMemoryIntegrationTestCase() {
 
 			eventBus.publish(event)
 
-			event.isConsumedBy(CountTotalUsersOnUserCreated::class) shouldBe true
-			event.isConsumedBy(SendWelcomeEmailOnUserCreated::class) shouldBe true
+			event shouldBeConsumedBy CountTotalUsersOnUserCreated::class
+			event shouldBeConsumedBy SendWelcomeEmailOnUserCreated::class
 		}
 	}
 }

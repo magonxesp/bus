@@ -6,7 +6,7 @@ import io.github.magonxesp.bus.domain.event.SendWelcomeEmailOnUserCreated
 import io.github.magonxesp.bus.domain.event.UserCreated
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventBus
 import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventConsumer
-import io.kotest.matchers.shouldBe
+import io.github.magonxesp.bus.shouldBeConsumedBy
 import kotlinx.coroutines.delay
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
@@ -28,8 +28,8 @@ class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
 			eventConsumer.startConsume()
 
 			delay(3000)
-			event.isConsumedBy(CountTotalUsersOnUserCreated::class) shouldBe true
-			event.isConsumedBy(SendWelcomeEmailOnUserCreated::class) shouldBe true
+			event shouldBeConsumedBy CountTotalUsersOnUserCreated::class
+			event shouldBeConsumedBy SendWelcomeEmailOnUserCreated::class
 		}
 	}
 }

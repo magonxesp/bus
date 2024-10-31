@@ -5,7 +5,7 @@ import io.github.magonxesp.bus.domain.command.UserCreateCommandHandler
 import io.github.magonxesp.bus.domain.command.randomUserCreateCommand
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandBus
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandConsumer
-import io.kotest.matchers.shouldBe
+import io.github.magonxesp.bus.shouldBeConsumedBy
 import kotlinx.coroutines.delay
 import org.koin.java.KoinJavaComponent.inject
 
@@ -21,7 +21,7 @@ class RabbitMqCommandConsumerTest : RabbitMqIntegrationTestCase() {
 			commandConsumer.startConsume()
 
 			delay(3000)
-			command.isConsumedBy(UserCreateCommandHandler::class) shouldBe true
+			command shouldBeConsumedBy UserCreateCommandHandler::class
 		}
 	}
 }

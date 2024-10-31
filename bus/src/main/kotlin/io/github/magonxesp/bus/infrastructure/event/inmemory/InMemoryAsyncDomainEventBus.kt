@@ -19,7 +19,7 @@ class InMemoryAsyncDomainEventBus(
 	private var queuesProcessing = mutableSetOf<String>()
 
 	private fun startProcessingQueue(queue: BlockingQueue, subscriber: DomainEventSubscriberClass) {
-		if (queuesProcessing.contains(subscriber::class.qualifiedName!!)) return
+		if (queuesProcessing.contains(subscriber.qualifiedName!!)) return
 
 		thread {
 			while (true) {
@@ -28,7 +28,7 @@ class InMemoryAsyncDomainEventBus(
 			}
 		}
 
-		queuesProcessing.add(subscriber::class.qualifiedName!!)
+		queuesProcessing.add(subscriber.qualifiedName!!)
 	}
 
 	override fun publish(vararg domainEvent: DomainEvent<*>) {

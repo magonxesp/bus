@@ -3,6 +3,7 @@ package io.github.magonxesp.bus
 import io.github.magonxesp.bus.infrastructure.command.koin.rabbitMqCommandBusModule
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandQueueAutoDeclaration
 import io.github.magonxesp.bus.infrastructure.event.koin.rabbitMqDomainEventBusModule
+import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventQueueAutoDeclaration
 import io.kotest.core.spec.Spec
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -49,6 +50,7 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 		}
 
 		koinApplication.koin.get<RabbitMqCommandQueueAutoDeclaration>().apply { declareAllQueues() }
+		koinApplication.koin.get<RabbitMqDomainEventQueueAutoDeclaration>().apply { declareAllQueues() }
 	}
 
 	override suspend fun beforeSpec(spec: Spec) {

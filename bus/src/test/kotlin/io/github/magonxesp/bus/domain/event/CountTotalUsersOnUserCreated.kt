@@ -1,6 +1,6 @@
 package io.github.magonxesp.bus.domain.event
 
-import io.github.magonxesp.bus.IntegrationTestCase.Companion.notifyConsumed
+import io.github.magonxesp.bus.markAsConsumed
 import org.slf4j.LoggerFactory
 
 class CountTotalUsersOnUserCreated : DomainEventSubscriber<UserCreated> {
@@ -8,7 +8,7 @@ class CountTotalUsersOnUserCreated : DomainEventSubscriber<UserCreated> {
 
 	override fun handle(event: UserCreated) {
 		logger.debug("Domain event subscriber {} fired", this::class)
-		notifyConsumed(event)
+		event.markAsConsumed(this::class)
 		logger.debug("Domain event subscriber {} finish", this::class)
 	}
 }
