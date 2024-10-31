@@ -12,7 +12,7 @@ import org.koin.dsl.module
 fun rabbitMqCommandBusModule(configure: RabbitMqBusConfiguration.() -> Unit): Module = module {
 	val configuration = RabbitMqBusConfiguration().apply { configure() }
 
-	commonDependencies()
+	commonCommandDependencies()
 	commandRegistryModule(configuration)
 	rabbitMqConnectionFactory(configuration)
 

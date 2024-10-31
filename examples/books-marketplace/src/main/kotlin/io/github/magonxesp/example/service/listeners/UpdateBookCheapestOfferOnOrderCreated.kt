@@ -11,7 +11,7 @@ class UpdateBookCheapestOfferOnOrderCreated(
 	private val orderItemsRepository: OrderItemsRepository
 ) : DomainEventSubscriber<OrderCreatedEvent> {
 	override fun handle(event: OrderCreatedEvent) {
-		orderItemsRepository.findByOrderId(event.orderId).forEach {
+		orderItemsRepository.findByOrderId(event.attributes.orderId).forEach {
 			service.setBookCheapestOffer(it.bookId)
 		}
 	}

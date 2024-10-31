@@ -1,22 +1,24 @@
 package io.github.magonxesp.bus.domain.event
 
-class UserCreated(
-	id: String,
-	name: String,
-	email: String,
-	avatarUrl: String
-) : DomainEvent() {
-	constructor() : this(
-		id = "",
-		name = "",
-		email = "",
-		avatarUrl = "",
+class UserCreated(override val attributes: Attributes): DomainEvent<UserCreated.Attributes>() {
+	constructor(
+		id: String,
+		name: String,
+		email: String,
+		avatarUrl: String
+	) : this(Attributes(
+		id = id,
+		name = name,
+		email = email,
+		avatarUrl = avatarUrl
+	))
+
+	data class Attributes(
+		val id: String,
+		val name: String,
+		val email: String,
+		val avatarUrl: String,
 	)
 
 	override val eventName = "user_created"
-
-	val id: String by readOnlyAttribute(id)
-	val name: String by readOnlyAttribute(name)
-	val email: String by readOnlyAttribute(email)
-	val avatarUrl: String by readOnlyAttribute(avatarUrl)
 }

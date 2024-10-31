@@ -1,6 +1,7 @@
 package io.github.magonxesp.bus
 
 import io.github.magonxesp.bus.infrastructure.command.koin.inMemoryCommandBusModule
+import io.github.magonxesp.bus.infrastructure.event.koin.inMemoryDomainEventModule
 import io.kotest.core.spec.Spec
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -16,6 +17,13 @@ abstract class InMemoryIntegrationTestCase : IntegrationTestCase() {
 					basePackage = "io.github.magonxesp.bus"
 				},
 				inMemoryCommandBusModule {
+					basePackage = "io.github.magonxesp.bus"
+					async = true
+				},
+				inMemoryDomainEventModule {
+					basePackage = "io.github.magonxesp.bus"
+				},
+				inMemoryDomainEventModule {
 					basePackage = "io.github.magonxesp.bus"
 					async = true
 				}

@@ -5,14 +5,13 @@ import io.github.magonxesp.bus.infrastructure.command.CommandExecutor
 import io.github.magonxesp.bus.infrastructure.command.CommandSerializer
 import io.github.magonxesp.bus.infrastructure.command.registry.NoopCommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.registry.ReflectionCommandRegistry
-import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
 import io.github.magonxesp.bus.infrastructure.shared.koin.BusConfiguration
-import io.github.magonxesp.bus.infrastructure.shared.koin.KoinDependencyInjectionHelper
+import io.github.magonxesp.bus.infrastructure.shared.koin.defaultDependencyInjection
 import org.koin.core.module.Module
 import org.koin.dsl.bind
 
-fun Module.commonDependencies() {
-	single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
+fun Module.commonCommandDependencies() {
+	defaultDependencyInjection()
 	single { CommandExecutor(get(), get()) }
 	single { CommandSerializer() }
 }

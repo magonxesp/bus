@@ -7,11 +7,11 @@ import io.github.magonxesp.bus.domain.event.SendWelcomeEmailOnUserCreated
 import org.koin.dsl.module
 
 val CommandHandlersModule = module {
-	single { CountTotalUsersOnUserCreated() }
 	single { TaskListCreateCommandHandler() }
 	single { UserCreateCommandHandler() }
 }
 
 val DomainEventSubscribersModule = module {
+	single { CountTotalUsersOnUserCreated() }
 	single { SendWelcomeEmailOnUserCreated() }
 }

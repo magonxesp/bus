@@ -6,6 +6,6 @@ import io.github.magonxesp.example.service.BookOfferService
 
 class UpdateOffersStockOnOrderCreate(private val bookOfferService: BookOfferService) : DomainEventSubscriber<OrderCreatedEvent> {
 	override fun handle(event: OrderCreatedEvent) {
-		bookOfferService.claimStockFromOrder(event.orderId)
+		bookOfferService.claimStockFromOrder(event.attributes.orderId)
 	}
 }

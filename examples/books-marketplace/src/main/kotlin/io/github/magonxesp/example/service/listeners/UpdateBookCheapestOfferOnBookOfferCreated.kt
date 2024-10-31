@@ -6,6 +6,6 @@ import io.github.magonxesp.example.service.BookOfferService
 
 class UpdateBookCheapestOfferOnBookOfferCreated(private val service: BookOfferService) : DomainEventSubscriber<BookOfferCreatedEvent> {
 	override fun handle(event: BookOfferCreatedEvent) {
-		service.setBookCheapestOffer(event.bookId)
+		service.setBookCheapestOffer(event.attributes.bookId)
 	}
 }

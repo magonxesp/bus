@@ -39,9 +39,23 @@ fun ResultRow.toBookOfferEntity() = BookOffer(
 )
 
 data class BookOfferCreatedEvent(
-	val offerId: UUID,
-	val bookId: UUID,
-	val stock: Int
-) : DomainEvent() {
+	override val attributes: Attributes
+) : DomainEvent<BookOfferCreatedEvent.Attributes>() {
+	constructor(
+		offerId: UUID,
+		bookId: UUID,
+		stock: Int
+	) : this(Attributes(
+		offerId = offerId,
+		bookId = bookId,
+		stock = stock
+	))
+
+	data class Attributes(
+		val offerId: UUID,
+		val bookId: UUID,
+		val stock: Int
+	)
+
 	override val eventName: String = "book_offer_created"
 }

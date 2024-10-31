@@ -46,7 +46,11 @@ data class OrderCreateCommand(
 ) : Command<OrderCreateRequest>()
 
 data class OrderCreatedEvent(
-	val orderId: UUID
-) : DomainEvent() {
+	override val attributes: Attributes
+) : DomainEvent<OrderCreatedEvent.Attributes>() {
+	constructor(orderId: UUID) : this(Attributes(orderId))
+
+	class Attributes(val orderId: UUID)
+
 	override val eventName = "order_created"
 }

@@ -1,22 +1,21 @@
 package io.github.magonxesp.bus.infrastructure.event
 
-import io.github.magonxesp.bus.RabbitMqIntegrationTestCase
+import io.github.magonxesp.bus.InMemoryIntegrationTestCase
+import io.github.magonxesp.bus.IntegrationTestCase
 import io.github.magonxesp.bus.domain.event.CountTotalUsersOnUserCreated
 import io.github.magonxesp.bus.domain.event.SendWelcomeEmailOnUserCreated
 import io.github.magonxesp.bus.domain.event.UserCreated
-import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventBus
-import io.github.magonxesp.bus.infrastructure.event.rabbitmq.RabbitMqDomainEventConsumer
+import io.github.magonxesp.bus.infrastructure.event.inmemory.InMemoryAsyncDomainEventBus
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
-class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
-	private val eventBus by inject<RabbitMqDomainEventBus>(RabbitMqDomainEventBus::class.java)
-	private val eventConsumer by inject<RabbitMqDomainEventConsumer>(RabbitMqDomainEventConsumer::class.java)
+class InMemoryAsyncDomainEventBusTest : InMemoryIntegrationTestCase() {
+	private val eventBus by inject<InMemoryAsyncDomainEventBus>(InMemoryAsyncDomainEventBus::class.java)
 
 	init {
-		test("it should consume incoming domain event") {
+	    test("it should publish and handle domain events") {
 			val event = UserCreated(
 				id = UUID.randomUUID().toString(),
 				name = "test",
@@ -25,7 +24,6 @@ class RabbitMqDomainEventConsumerTest : RabbitMqIntegrationTestCase() {
 			)
 
 			eventBus.publish(event)
-			eventConsumer.startConsume()
 
 			delay(3000)
 			event.isConsumedBy(CountTotalUsersOnUserCreated::class) shouldBe true

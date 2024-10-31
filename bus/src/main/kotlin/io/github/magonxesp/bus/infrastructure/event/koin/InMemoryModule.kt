@@ -1,46 +1,30 @@
 package io.github.magonxesp.bus.infrastructure.event.koin
 
 import io.github.magonxesp.bus.domain.event.DomainEventBus
-import io.github.magonxesp.bus.domain.event.DomainEventRegistry
-import io.github.magonxesp.bus.domain.event.DomainEventSubscribers
-import io.github.magonxesp.bus.infrastructure.event.InMemoryDomainEventRegistry
-import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
+import io.github.magonxesp.bus.infrastructure.event.inmemory.InMemoryAsyncDomainEventBus
 import io.github.magonxesp.bus.infrastructure.event.inmemory.InMemorySyncDomainEventBus
-import io.github.magonxesp.bus.infrastructure.shared.dependencyinjection.BusDependencyInjectionHelper
-import io.github.magonxesp.bus.infrastructure.shared.koin.KoinDependencyInjectionHelper
+import io.github.magonxesp.bus.infrastructure.shared.koin.BusConfiguration
 import org.koin.core.module.Module
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun inMemoryDomainEventBusModule(basePackage: String): Module {
-	return module {
-		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
-		single { ReflectionDomainEventRegistry(basePackage) } bind DomainEventRegistry::class
-		single { InMemorySyncDomainEventBus(get(), get()) } bind DomainEventBus::class
-	}
+class InMemoryDomainEventBusConfiguration : BusConfiguration() {
+	var async: Boolean = false
+	var asyncMaxQueueItems: Int = 100
 }
 
-fun inMemoryAsyncDomainEventBusModule(basePackage: String): Module {
-	return module {
-		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
-		single { ReflectionDomainEventRegistry(basePackage) } bind DomainEventRegistry::class
-		single { InMemorySyncDomainEventBus(get(), get()) } bind DomainEventBus::class
-		// TODO: create async implementation
-	}
+fun inMemoryDomainEventModule(configure: InMemoryDomainEventBusConfiguration.() -> Unit): Module = module {
+	val configuration = InMemoryDomainEventBusConfiguration().apply { configure() }
+
+	commonDomainEventDependencies()
+	domainEventRegistryModule(configuration)
+	domainEventImplementation(configuration)
 }
 
-fun inMemoryCommandBusModule(
-	subscribers: DomainEventSubscribers,
-): Module {
-	val registry = InMemoryDomainEventRegistry().apply {
-		registry = subscribers
-			.mapValues { it.value.toMutableSet() }
-			.toMutableMap()
-	}
-
-	return module {
-		single { KoinDependencyInjectionHelper() } bind BusDependencyInjectionHelper::class
-		single { registry } bind DomainEventRegistry::class
-		single { InMemorySyncDomainEventBus(get(), get()) } bind DomainEventBus::class
+fun Module.domainEventImplementation(configuration: InMemoryDomainEventBusConfiguration) {
+	if (configuration.async) {
+		single { InMemoryAsyncDomainEventBus(get(), get(), configuration.asyncMaxQueueItems) } bind DomainEventBus::class
+	} else {
+		single { InMemorySyncDomainEventBus(get()) } bind DomainEventBus::class
 	}
 }

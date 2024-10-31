@@ -2,6 +2,7 @@ package io.github.magonxesp.bus
 
 import io.github.magonxesp.bus.infrastructure.command.koin.rabbitMqCommandBusModule
 import io.github.magonxesp.bus.infrastructure.command.rabbitmq.RabbitMqCommandQueueAutoDeclaration
+import io.github.magonxesp.bus.infrastructure.event.koin.rabbitMqDomainEventBusModule
 import io.kotest.core.spec.Spec
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -33,6 +34,12 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 				CommandHandlersModule,
 				DomainEventSubscribersModule,
 				rabbitMqCommandBusModule {
+					username = rabbitmq.adminUsername
+					password = rabbitmq.adminPassword
+					port = rabbitmq.amqpPort
+					basePackage = "io.github.magonxesp.bus"
+				},
+				rabbitMqDomainEventBusModule {
 					username = rabbitmq.adminUsername
 					password = rabbitmq.adminPassword
 					port = rabbitmq.amqpPort

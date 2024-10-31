@@ -1,31 +1,31 @@
-package io.github.magonxesp.bus.infrastructure.event
+package io.github.magonxesp.bus.infrastructure.event.registry
 
+import io.github.magonxesp.bus.domain.event.*
 import io.github.magonxesp.bus.domain.shared.getParameter
-import io.github.magonxesp.bus.domain.event.DomainEvent
-import io.github.magonxesp.bus.domain.event.DomainEventRegistry
-import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
-import io.github.magonxesp.bus.domain.event.DomainEventSubscribers
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners.*
-import kotlin.reflect.KClass
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.jvm.jvmErasure
 
 class ReflectionDomainEventRegistry(basePackage: String) : DomainEventRegistry {
+	private val registry = mutableMapOf<DomainEventClass, MutableSet<DomainEventSubscriberClass>>()
 	private val reflections = Reflections(basePackage)
 
 	override fun domainEventSubscribers(): DomainEventSubscribers {
-		val registry = mutableMapOf<KClass<*>, MutableSet<KClass<*>>>()
+		if (registry.isNotEmpty()) {
+			return registry
+		}
+
 		val subscriberClasses = reflections
 			.get(SubTypes.of(DomainEventSubscriber::class.java)
 			.asClass<DomainEventSubscriber<*>>())
-			.map { it.kotlin }
+			.map { it.kotlin as DomainEventSubscriberClass }
 
 		for (subscriberClass in subscriberClasses) {
 			val domainEventClasses = subscriberClass.functions
 				.filter { it.name == "handle" }
-				.map { it.getParameter("event").type.jvmErasure }
+				.map { it.getParameter("event").type.jvmErasure as DomainEventClass }
 
 			for (eventClass in domainEventClasses) {
 				if (eventClass.isSubclassOf(DomainEvent::class)) {

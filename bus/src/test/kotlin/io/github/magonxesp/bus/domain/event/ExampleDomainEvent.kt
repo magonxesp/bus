@@ -1,16 +1,15 @@
 package io.github.magonxesp.bus.domain.event
 
-class ExampleDomainEvent(
-	exampleName: String,
-	exampleAttribute: String
-) : DomainEvent() {
-	constructor() : this(
-		exampleAttribute = "",
-		exampleName = ""
+data class ExampleDomainEvent(override val attributes: Attributes) : DomainEvent<ExampleDomainEvent.Attributes>() {
+	constructor(
+		exampleName: String,
+		exampleAttribute: String
+	) : this(Attributes(exampleName, exampleAttribute))
+
+	data class Attributes(
+		val exampleName: String,
+		val exampleAttribute: String
 	)
 
 	override val eventName: String = "example_domain_event"
-
-	var exampleName: String by attribute(exampleName)
-	var exampleAttribute: String by attribute(exampleAttribute)
 }

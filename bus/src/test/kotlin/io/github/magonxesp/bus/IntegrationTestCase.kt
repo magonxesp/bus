@@ -5,7 +5,7 @@ import io.github.magonxesp.bus.domain.command.CommandHandler
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriber
 import io.github.magonxesp.bus.infrastructure.command.registry.ReflectionCommandRegistry
-import io.github.magonxesp.bus.infrastructure.event.ReflectionDomainEventRegistry
+import io.github.magonxesp.bus.infrastructure.event.registry.ReflectionDomainEventRegistry
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
@@ -20,7 +20,7 @@ abstract class IntegrationTestCase : FunSpec() {
 		const val TEST_TMP_DIR = "test_tmp"
 		val TEST_RUN_TIMESTAMP = Clock.System.now().epochSeconds.toString()
 
-		fun DomainEventSubscriber<*>.notifyConsumed(event: DomainEvent) {
+		fun DomainEventSubscriber<*>.notifyConsumed(event: DomainEvent<*>) {
 			val directory = Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "event", event.eventId).toFile().apply { mkdirs() }
 			Path(directory.path, this::class.qualifiedName!!).writeText("")
 		}
@@ -35,7 +35,7 @@ abstract class IntegrationTestCase : FunSpec() {
 	 * When a test event subscriber is dispatched It will write a file, then we should
 	 * check if the file exists for ensure the subscriber is fired
 	 */
-	protected fun DomainEvent.isConsumedBy(klass: KClass<*>): Boolean =
+	protected fun DomainEvent<*>.isConsumedBy(klass: KClass<*>): Boolean =
 		Path(TEST_TMP_DIR, TEST_RUN_TIMESTAMP, "event", eventId, klass.qualifiedName!!).exists()
 
 	/**

@@ -1,20 +1,25 @@
 package io.github.magonxesp.bus.domain.event
 
-class ExampleNestedDomainEvent(
-	exampleAttribute: String,
-	exampleName: Nested
-) : DomainEvent() {
-	constructor() : this(
-		exampleAttribute = "",
-		exampleName = Nested("")
+data class ExampleNestedDomainEvent(override val attributes: Attributes) : DomainEvent<ExampleNestedDomainEvent.Attributes>() {
+	constructor(
+		exampleName: String,
+		exampleAttribute: String,
+		exampleNested: Nested
+	) : this(Attributes(
+		exampleAttribute = exampleAttribute,
+		exampleName = exampleName,
+		exampleNested = exampleNested
+	))
+
+	data class Attributes(
+		val exampleName: String,
+		val exampleAttribute: String,
+		val exampleNested: Nested
 	)
-
-	override val eventName: String = "example_domain_event"
-
-	// var exampleName: Nested by attribute(exampleName) // Not allowed!!
-	var exampleAttribute: String by attribute(exampleAttribute)
 
 	data class Nested(
 		var value: String
 	)
+
+	override val eventName: String = "example_domain_event"
 }

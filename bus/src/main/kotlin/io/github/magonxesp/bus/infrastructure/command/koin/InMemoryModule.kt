@@ -8,7 +8,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-class InMemoryBusConfiguration : BusConfiguration() {
+class InMemoryCommandBusConfiguration : BusConfiguration() {
 	var async: Boolean = false
 	var asyncMaxQueueItems: Int = 100
 }
@@ -24,15 +24,15 @@ fun inMemoryAsyncCommandBusModule(basePackage: String): Module = inMemoryCommand
 	this.basePackage = basePackage
 }
 
-fun inMemoryCommandBusModule(configure: InMemoryBusConfiguration.() -> Unit): Module = module {
-	val configuration = InMemoryBusConfiguration().apply { configure() }
+fun inMemoryCommandBusModule(configure: InMemoryCommandBusConfiguration.() -> Unit): Module = module {
+	val configuration = InMemoryCommandBusConfiguration().apply { configure() }
 
-	commonDependencies()
+	commonCommandDependencies()
 	commandRegistryModule(configuration)
 	commandBusImplementation(configuration)
 }
 
-private fun Module.commandBusImplementation(configuration: InMemoryBusConfiguration) {
+private fun Module.commandBusImplementation(configuration: InMemoryCommandBusConfiguration) {
 	if (configuration.async) {
 		single { InMemoryAsyncCommandBus(get(), configuration.asyncMaxQueueItems) } bind CommandBus::class
 	} else {
