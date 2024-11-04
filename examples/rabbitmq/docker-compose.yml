@@ -2,14 +2,14 @@ services:
   backend:
     build:
       dockerfile: examples/in-memory/Dockerfile
-      context: .
+      context: ../../
     ports:
       - '8082:8080'
 
   consumer:
     build:
       dockerfile: examples/in-memory/Dockerfile
-      context: .
+      context: ../../
     ports:
       - '8082:8080'
     environment:
