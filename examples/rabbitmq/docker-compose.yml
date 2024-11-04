@@ -10,8 +10,6 @@ services:
     build:
       dockerfile: examples/in-memory/Dockerfile
       context: ../../
-    ports:
-      - '8082:8080'
     environment:
       CONSUMER_MODE: true
 
