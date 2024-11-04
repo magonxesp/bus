@@ -16,7 +16,7 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 	private val logger = LoggerFactory.getLogger(this::class.java)
 
 	companion object {
-		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:3.13.1-management-alpine"))
+		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:4.0.3-management-alpine"))
 	}
 
 	private fun startRabbitMq() {

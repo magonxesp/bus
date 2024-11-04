@@ -24,7 +24,8 @@ The PostgreSQL database doesn't use foreign keys for allow concurrent inserts wi
 ### Example applications available
 
 * *in-memory*: Uses the sync in memory bus implementation.
-* *in-memory-async* (WIP 👷‍♂️): Uses the in memory async bus implementation based in kotlin coroutines.
+* *in-memory-async*: Uses the in memory async bus implementation based in ``LinkedBlockingQueue`` on a separated thread.
+* *rabbitmq*: Uses the RabbitMQ bus implementation.
 
 ## Performance test
 

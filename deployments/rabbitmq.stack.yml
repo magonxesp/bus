@@ -1,20 +1,21 @@
 services:
-  in-memory:
-    build:
-      dockerfile: examples/in-memory/Dockerfile
-      context: .
+  backend:
+    image: books_marketplace_rabbitmq:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
     ports:
-      - '8080:8080'
-
-  in-memory-async:
-    build:
-      dockerfile: examples/in-memory-async/Dockerfile
-      context: .
-    ports:
-      - '8081:8080'
+      - '8082:8080'
 
   postgresql:
     image: postgres:17.0-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "1G"
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
     environment:
@@ -25,6 +26,11 @@ services:
 
   rabbitmq:
     image: rabbitmq:4.0.3-management-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "1G"
     ports:
       - "15672:15672"
     environment:

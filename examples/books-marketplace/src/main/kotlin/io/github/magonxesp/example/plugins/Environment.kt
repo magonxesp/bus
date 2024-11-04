@@ -22,3 +22,15 @@ val postgreSqlUser: String
 
 val postgreSqlPassword: String
 	get() = dotenv["POSTGRESQL_PASSWORD"] ?: "example"
+
+val rabbitMqHost: String
+	get() = dotenv["RABBIT_MQ_HOST"] ?: "rabbitmq"
+
+val rabbitMqPort: Int
+	get() = dotenv["RABBIT_MQ_PORT"]?.toInt() ?: 5672
+
+val rabbitMqUser: String
+	get() = dotenv["RABBIT_MQ_USER"] ?: "guest"
+
+val rabbitMqPassword: String
+	get() = dotenv["RABBIT_MQ_PASSWORD"] ?: "guest"
