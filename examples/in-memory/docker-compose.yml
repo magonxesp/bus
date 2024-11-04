@@ -1,17 +1,10 @@
 services:
-  in-memory:
+  backend:
     build:
       dockerfile: examples/in-memory/Dockerfile
       context: .
     ports:
       - '8080:8080'
-
-  in-memory-async:
-    build:
-      dockerfile: examples/in-memory-async/Dockerfile
-      context: .
-    ports:
-      - '8081:8080'
 
   postgresql:
     image: postgres:17.0-alpine
@@ -22,14 +15,6 @@ services:
       POSTGRES_USER: example
       POSTGRES_PASSWORD: example
       POSTGRES_DB: example
-
-  rabbitmq:
-    image: rabbitmq:4.0.3-management-alpine
-    ports:
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
 
 volumes:
   postgres:

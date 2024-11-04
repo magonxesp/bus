@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      dockerfile: examples/in-memory-async/Dockerfile
+      context: .
+    ports:
+      - '8081:8080'
+
+  postgresql:
+    image: postgres:17.0-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
+
+volumes:
+  postgres:

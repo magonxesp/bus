@@ -37,7 +37,7 @@ Well, we start the ``in-memory-async`` example application and PostgreSQL.
 
 #### With docker compose
 ```sh
-$ docker compose up -d in-memory-async postgresql
+$ docker compose -f examples/in-memory-async/docker-compose.yml up -d backend postgresql
 ```
 
 #### With docker swarm
@@ -53,7 +53,7 @@ $ docker build -f examples/in-memory-async/Dockerfile -t books_marketplace_in_me
 Edit the stack file replacing the image by the built one. Then deploy the stack.
 
 ```sh
-$ docker stack deploy -c deployments/in-memory-async.stack.yml books_marketplace_in_memory_async
+$ docker stack deploy -c examples/in-memory-async/stack.yml books_marketplace_in_memory_async
 ```
 
 ### Run the performance test
