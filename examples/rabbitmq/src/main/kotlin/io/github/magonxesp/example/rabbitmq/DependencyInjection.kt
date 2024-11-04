@@ -6,7 +6,7 @@ import io.github.magonxesp.example.plugins.*
 import io.ktor.server.application.*
 import org.koin.core.context.startKoin
 
-fun Application.configureDependencyInjection() {
+fun configureDependencyInjection() {
 	startKoin {
 		addAppModules()
 		modules(

@@ -25,6 +25,6 @@ fun setupSchema(database: Database) = transaction(database) {
 	)
 }
 
-fun Application.configureDatabase() {
+fun configureDatabase() {
 	setupSchema(get(Database::class.java))
 }

@@ -6,7 +6,7 @@ import io.ktor.server.application.*
 
 private lateinit var dotenv: Dotenv
 
-fun Application.configureEnvironment() {
+fun configureEnvironment() {
 	dotenv = dotenv {
 		System.getenv("DOTENV_DIR")?.also { directory = it }
 		ignoreIfMissing = true

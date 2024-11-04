@@ -9,6 +9,16 @@ services:
     ports:
       - '8082:8080'
 
+  consumer:
+    image: books_marketplace_rabbitmq:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
+    environment:
+      CONSUMER_MODE: true
+
   postgresql:
     image: postgres:17.0-alpine
     deploy:
