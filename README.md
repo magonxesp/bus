@@ -58,30 +58,26 @@ $ docker stack deploy -c examples/in-memory-async/stack.yml books_marketplace_in
 
 ### Run the performance test
 
-Then, install ``virtualenv`` if it is not installed
+First, install [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) if it is not installed.
+
+Then, run the "new user creating an offer" performance test for example.
 
 ```sh
-$ pip install virtualenv
+$ k6 run k6/new-user-create-offer.js
 ```
 
-Run ``create-env`` action
+Alternatively you can use the ``Makefile`` action.
 
 ```sh
-$ make create-env
-```
-
-Activate the virtualenv and run locust with the "new user creating a offer" test
-
-```sh
-$ souce venv/bin/activate
-(venv) $ export PYTHONPATH="$(pwd)/performance-test"
-(venv) $ locust -f performance-test/new-user-create-offer.py
+$ make test-new-user-create-offer
 ```
 
 ### Available performance tests
 
-All tests scenarios are thinking about a user usign a mobile application.
+All tests are located in the ``k6`` directory. 
 
-* *new-user-create-offer.py*: The user is new to the application, he signs up and then registers a new book that don't exist on the marketplace, then the user create a new offer for that book.
+Tests scenarios are thinking about a user using a mobile application.
 
-Comming soon more tests.
+* *new-user-create-offer.js*: The user is new to the application, he signs up and then registers a new book that don't exist on the marketplace, then the user create a new offer for that book.
+
+Coming soon more tests.

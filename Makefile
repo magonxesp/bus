@@ -1,9 +1,4 @@
-.PHONY: create-env activate-env run-stress-test
+.PHONY: test-new-user-create-offer
 
-create-env:
-	python -m virtualenv venv; \
-	source venv/bin/activate; \
-	pip install -r requeriments.txt
-
-run-stress-test:
-	k6 run test.js
+test-new-user-create-offer:
+	k6 run new-user-create-offer.js
