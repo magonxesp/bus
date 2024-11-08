@@ -10,4 +10,5 @@ class RabbitMqBusConfiguration : BusConfiguration() {
 	var virtualHost: String? = null
 	var connection: Connection? = null
 	var queuePrefix: String = ""
+	var consumePolling: Boolean = false
 }

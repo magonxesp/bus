@@ -2,7 +2,7 @@ import { sleep, check } from 'k6'
 import http from 'k6/http'
 import { randomOffer, randomBook, randomUser } from './generators.js'
 
-const baseUrl = __ENV.BASE_URL ?? 'http://localhost:8081'
+const baseUrl = __ENV.BASE_URL ?? 'http://localhost:8080'
 
 export const options = {
     stages: [

@@ -19,5 +19,10 @@ fun rabbitMqCommandBusModule(configure: RabbitMqBusConfiguration.() -> Unit): Mo
 	single { RabbitMqCommandQueueAutoDeclaration(get(), get(), get()) }
 	single { DefaultRabbitMqCommandQueueResolver(configuration.queuePrefix) } bind RabbitMqCommandQueueResolver::class
 	single { RabbitMqCommandBus(get(), get(), get(), get()) } bind CommandBus::class
-	single { RabbitMqCommandConsumer(get(), get(), get(), get(), get()) } bind CommandConsumer::class
+
+	if (configuration.consumePolling) {
+		single { RabbitMqPollingCommandConsumer(get(), get(), get(), get(), get()) } bind CommandConsumer::class
+	} else {
+		single { RabbitMqCommandConsumer(get(), get(), get(), get(), get()) } bind CommandConsumer::class
+	}
 }

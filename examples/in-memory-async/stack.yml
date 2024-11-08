@@ -7,7 +7,7 @@ services:
           cpus: "1"
           memory: "1G"
     ports:
-      - '8081:8080'
+      - '8080:8080'
 
   postgresql:
     image: postgres:17.0-alpine

@@ -1,6 +1,6 @@
 services:
   backend:
-    image: books_marketplace_rabbitmq:latest
+    image: books_marketplace_rabbitmq_polling:latest
     deploy:
       resources:
         limits:
@@ -10,7 +10,7 @@ services:
       - '8080:8080'
 
   consumer:
-    image: books_marketplace_rabbitmq:latest
+    image: books_marketplace_rabbitmq_polling:latest
     deploy:
       resources:
         limits:
