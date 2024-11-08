@@ -13,12 +13,10 @@ fun Application.configureDependencyInjection() {
 			inMemoryCommandBusModule {
 				basePackage = "io.github.magonxesp.example"
 				async = true
-				asyncMaxQueueItems = 100_000
 			},
 			inMemoryDomainEventModule {
 				basePackage = "io.github.magonxesp.example"
 				async = true
-				asyncMaxQueueItems = 100_000
 			}
 		)
 	}

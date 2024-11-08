@@ -6,6 +6,8 @@ import io.github.magonxesp.bus.domain.event.DomainEventRegistry
 import io.github.magonxesp.bus.domain.event.DomainEventSubscriberClass
 import io.github.magonxesp.bus.infrastructure.event.DomainEventExecutor
 import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 private typealias BlockingQueue = LinkedBlockingQueue<DomainEvent<*>>
@@ -13,35 +15,18 @@ private typealias BlockingQueue = LinkedBlockingQueue<DomainEvent<*>>
 class InMemoryAsyncDomainEventBus(
 	private val registry: DomainEventRegistry,
 	private val domainEventExecutor: DomainEventExecutor,
-	private val maxQueueItems: Int = 100
+	maxThreads: Int = 4
 ): DomainEventBus {
-	private val queues = mutableMapOf<DomainEventSubscriberClass, BlockingQueue>()
-	private var queuesProcessing = mutableSetOf<String>()
-
-	private fun startProcessingQueue(queue: BlockingQueue, subscriber: DomainEventSubscriberClass) {
-		if (queuesProcessing.contains(subscriber.qualifiedName!!)) return
-
-		thread {
-			while (true) {
-				val event = queue.take()
-				domainEventExecutor.execute(event, subscriber)
-			}
-		}
-
-		queuesProcessing.add(subscriber.qualifiedName!!)
-	}
+	private val threadPoolExecutor = ThreadPoolExecutor(1, maxThreads, 30, TimeUnit.SECONDS, LinkedBlockingQueue())
 
 	override fun publish(vararg domainEvent: DomainEvent<*>) {
 		for (event in domainEvent) {
 			val subscribers = registry.domainEventSubscribers()[event::class] ?: setOf()
 
 			for (subscriber in subscribers) {
-				val queue = queues[subscriber] ?: BlockingQueue(maxQueueItems).also {
-					queues[subscriber] = it
+				threadPoolExecutor.submit {
+					domainEventExecutor.execute(event, subscriber)
 				}
-
-				startProcessingQueue(queue, subscriber)
-				queue.put(event)
 			}
 		}
 	}
