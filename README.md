@@ -24,7 +24,7 @@ The PostgreSQL database doesn't use foreign keys for allow concurrent inserts wi
 ### Example applications available
 
 * *in-memory*: Uses the sync in memory bus implementation.
-* *in-memory-async*: Uses the in memory async bus implementation based in ``LinkedBlockingQueue`` on a separated thread.
+* *in-memory-async*: Uses the in memory async bus implementation based in ``ThreadPoolExecutor`` with a maximum of 4 threads.
 * *rabbitmq*: Uses the RabbitMQ bus implementation.
 
 ## Performance test
