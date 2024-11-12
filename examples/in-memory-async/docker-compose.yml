@@ -3,8 +3,10 @@ services:
     build:
       dockerfile: examples/in-memory-async/Dockerfile
       context: ../../
+    restart: on-failure
     ports:
       - '8080:8080'
+      - '5005:5005'
 
   postgresql:
     image: postgres:17.0-alpine

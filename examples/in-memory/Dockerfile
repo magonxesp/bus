@@ -13,5 +13,6 @@ WORKDIR /app
 COPY --from=build /builder/examples/in-memory/build/libs/in-memory-all.jar /opt/in-memory-all.jar
 
 EXPOSE 8080
+EXPOSE 5005
 
-CMD ["java", "-jar", "/opt/in-memory-all.jar"]
+CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "/opt/in-memory-all.jar"]

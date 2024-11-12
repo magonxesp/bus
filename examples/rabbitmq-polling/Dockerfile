@@ -13,5 +13,6 @@ WORKDIR /app
 COPY --from=build /builder/examples/rabbitmq-polling/build/libs/rabbitmq-polling-all.jar /opt/rabbitmq-polling-all.jar
 
 EXPOSE 8080
+EXPOSE 5005
 
-CMD ["java", "-jar", "/opt/rabbitmq-polling-all.jar"]
+CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "/opt/rabbitmq-polling-all.jar"]

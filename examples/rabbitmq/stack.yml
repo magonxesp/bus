@@ -8,6 +8,7 @@ services:
           memory: "1G"
     ports:
       - '8080:8080'
+      - '5005:5005'
 
   consumer:
     image: books_marketplace_rabbitmq:latest
@@ -16,6 +17,8 @@ services:
         limits:
           cpus: "0.5"
           memory: "1G"
+    ports:
+      - '5006:5005'
     environment:
       CONSUMER_MODE: 'true'
 

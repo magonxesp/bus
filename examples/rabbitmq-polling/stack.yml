@@ -1,6 +1,6 @@
 services:
   backend:
-    image: books_marketplace_rabbitmq_polling:latest
+    image: books_marketplace_rabbitmq_polling:0.0.3
     deploy:
       resources:
         limits:
@@ -8,14 +8,17 @@ services:
           memory: "1G"
     ports:
       - '8080:8080'
+      - '5005:5005'
 
   consumer:
-    image: books_marketplace_rabbitmq_polling:latest
+    image: books_marketplace_rabbitmq_polling:0.0.3
     deploy:
       resources:
         limits:
           cpus: "0.5"
           memory: "1G"
+    ports:
+      - '5006:5005'
     environment:
       CONSUMER_MODE: 'true'
 
