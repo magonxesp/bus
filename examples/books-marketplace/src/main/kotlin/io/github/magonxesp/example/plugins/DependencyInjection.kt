@@ -4,6 +4,8 @@ import io.github.magonxesp.example.repository.*
 import io.github.magonxesp.example.service.BookOfferService
 import io.github.magonxesp.example.service.OrderService
 import io.github.magonxesp.example.service.UserService
+import io.github.magonxesp.example.service.handlers.BookOfferCreateCommandHandler
+import io.github.magonxesp.example.service.handlers.BookSaveCommandHandler
 import io.github.magonxesp.example.service.handlers.OrderCreateCommandHandler
 import io.github.magonxesp.example.service.handlers.UserSaveCommandHandler
 import io.github.magonxesp.example.service.listeners.UpdateBookCheapestOfferOnBookOfferCreated
@@ -35,6 +37,8 @@ val servicesModule = module {
 val handlersModule = module {
 	single { UserSaveCommandHandler(get()) }
 	single { OrderCreateCommandHandler(get()) }
+	single { BookOfferCreateCommandHandler(get()) }
+	single { BookSaveCommandHandler(get()) }
 }
 
 val listenersModule = module {

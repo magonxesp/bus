@@ -1,0 +1,16 @@
+###
+# Create a new order
+POST http://localhost:8080/order
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "110ee12c-0990-4a7a-9e9f-74beed9fb240",
+  "userId": "70c779f4-172f-4e06-96a1-fd54d13d7acf",
+  "items": [
+    {
+      "offerId": "d2db0a4a-cd3c-4e1d-b694-d2a1d585a375",
+      "quantity": 1
+    }
+  ]
+}

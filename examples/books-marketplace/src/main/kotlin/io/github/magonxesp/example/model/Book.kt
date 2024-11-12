@@ -1,6 +1,7 @@
 package io.github.magonxesp.example.model
 
 
+import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.example.plugins.UUIDSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ResultRow
@@ -38,3 +39,5 @@ fun ResultRow.toBookEntity() = Book(
 	price = get(BooksTable.price),
 	offerId = get(BooksTable.offerId),
 )
+
+class BookSaveCommand(override val data: Book) : Command<Book>()

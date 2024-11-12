@@ -1,0 +1,23 @@
+###
+# Create or update a book
+PUT http://localhost:8080/book
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "e9e87c05-82eb-4522-bc47-f0fcfdde4cab",
+  "title": "{{$random.alphabetic(35)}}",
+  "author": "{{$random.alphabetic(35)}}"
+}
+
+###
+# Get all books
+GET http://localhost:8080/books
+Accept: application/json
+Content-Type: application/json
+
+###
+# Get a book by id
+GET http://localhost:8080/books/e9e87c05-82eb-4522-bc47-f0fcfdde4cab
+Accept: application/json
+Content-Type: application/json

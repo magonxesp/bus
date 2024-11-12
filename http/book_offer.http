@@ -1,0 +1,19 @@
+###
+# Create new offer
+POST http://localhost:8080/offer
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "d2db0a4a-cd3c-4e1d-b694-d2a1d585a375",
+  "bookId": "e9e87c05-82eb-4522-bc47-f0fcfdde4cab",
+  "price": 30,
+  "sellerId": "70c779f4-172f-4e06-96a1-fd54d13d7acf",
+  "stock": 1
+}
+
+###
+# Get offers by book id
+GET http://localhost:8080/offers/e9e87c05-82eb-4522-bc47-f0fcfdde4cab
+Accept: application/json
+Content-Type: application/json

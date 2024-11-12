@@ -1,6 +1,8 @@
 package io.github.magonxesp.example.routes
 
+import io.github.magonxesp.bus.domain.command.CommandBus
 import io.github.magonxesp.example.model.Book
+import io.github.magonxesp.example.model.BookSaveCommand
 import io.github.magonxesp.example.repository.BookRepository
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -11,6 +13,7 @@ import java.util.*
 
 fun Routing.bookRoutes() {
 	val repository: BookRepository by inject(BookRepository::class.java)
+	val commandBus: CommandBus by inject(CommandBus::class.java)
 
 	get("/books") {
 		val books = repository.findAll()
@@ -30,7 +33,7 @@ fun Routing.bookRoutes() {
 
 	put("/book") {
 		val book = call.receive<Book>()
-		repository.save(book)
+		commandBus.dispatch(BookSaveCommand(book))
 		call.respond(HttpStatusCode.OK)
 	}
 }

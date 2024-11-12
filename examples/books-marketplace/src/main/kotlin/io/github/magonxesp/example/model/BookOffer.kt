@@ -1,6 +1,7 @@
 package io.github.magonxesp.example.model
 
 
+import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.example.plugins.UUIDSerializer
 import kotlinx.serialization.Serializable
@@ -59,3 +60,7 @@ data class BookOfferCreatedEvent(
 
 	override val eventName: String = "book_offer_created"
 }
+
+class BookOfferCreateCommand(
+	override val data: BookOffer
+) : Command<BookOffer>()

@@ -40,7 +40,6 @@ data class OrderCreateRequest(
 	val items: List<OrderItemSelectRequest>
 )
 
-@Serializable
 data class OrderCreateCommand(
 	override val data: OrderCreateRequest
 ) : Command<OrderCreateRequest>()

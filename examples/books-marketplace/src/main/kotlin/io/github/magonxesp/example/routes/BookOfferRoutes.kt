@@ -1,6 +1,8 @@
 package io.github.magonxesp.example.routes
 
+import io.github.magonxesp.bus.domain.command.CommandBus
 import io.github.magonxesp.example.model.BookOffer
+import io.github.magonxesp.example.model.BookOfferCreateCommand
 import io.github.magonxesp.example.repository.BookOfferRepository
 import io.github.magonxesp.example.service.BookOfferService
 import io.ktor.http.*
@@ -12,7 +14,7 @@ import java.util.*
 
 fun Routing.bookOfferRoutes() {
 	val repository: BookOfferRepository by inject(BookOfferRepository::class.java)
-	val service: BookOfferService by inject(BookOfferService::class.java)
+	val commandBus: CommandBus by inject(CommandBus::class.java)
 
 	get("/offers/{book_id}") {
 		val id = call.parameters["book_id"]?.let { UUID.fromString(it) } ?: throw IllegalArgumentException("Invalid ID")
@@ -23,7 +25,7 @@ fun Routing.bookOfferRoutes() {
 
 	post("/offer") {
 		val offer = call.receive<BookOffer>()
-		service.create(offer)
+		commandBus.dispatch(BookOfferCreateCommand(data = offer))
 		call.respond(HttpStatusCode.OK)
 	}
 }

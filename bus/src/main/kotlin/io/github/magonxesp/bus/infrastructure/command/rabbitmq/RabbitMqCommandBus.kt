@@ -5,6 +5,9 @@ import io.github.magonxesp.bus.domain.command.Command
 import io.github.magonxesp.bus.domain.command.CommandBus
 import io.github.magonxesp.bus.domain.command.CommandRegistry
 import io.github.magonxesp.bus.infrastructure.command.CommandSerializer
+import io.github.magonxesp.bus.infrastructure.shared.withTimeSpentLog
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class RabbitMqCommandBus(
 	private val connection: Connection,
@@ -12,7 +15,7 @@ class RabbitMqCommandBus(
 	private val commandSerializer: CommandSerializer,
 	private val commandQueueResolver: RabbitMqCommandQueueResolver
 ) : CommandBus {
-	override fun dispatch(command: Command<*>) {
+	override fun dispatch(command: Command<*>): Unit = withTimeSpentLog(::dispatch) {
 		val commandHandlers = commandRegistry.commandHandlers()
 		val channel = connection.createChannel()
 		val commandHandler = commandHandlers[command::class]

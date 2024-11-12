@@ -1,0 +1,16 @@
+###
+# Create or update a user
+PUT http://localhost:8080/user
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "70c779f4-172f-4e06-96a1-fd54d13d7acf",
+  "name": "{{$random.alphabetic(15)}}"
+}
+
+###
+# Get user by id
+GET http://localhost:8080/users/70c779f4-172f-4e06-96a1-fd54d13d7acf
+Accept: application/json
+Content-Type: application/json
