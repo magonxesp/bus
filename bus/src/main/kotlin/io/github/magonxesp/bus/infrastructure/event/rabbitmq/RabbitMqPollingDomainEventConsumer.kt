@@ -23,6 +23,7 @@ class RabbitMqPollingDomainEventConsumer(
 
 	private fun setupGracefulHook() {
 		Runtime.getRuntime().addShutdownHook(thread(start = false) {
+			logger.info("Stopping all domain event consumers...")
 			consumers.forEach {
 				it.cancel()
 			}
@@ -44,10 +45,11 @@ class RabbitMqPollingDomainEventConsumer(
 	}
 
 	private fun pullDomainEventForSubscriber(channel: Channel, subscriber: DomainEventSubscriberClass) = flow {
-		for (i in 0..10) {
-			val queue = domainEventQueueResolver.domainEventQueueName(subscriber)
-			val delivery = channel.basicGet(queue, false) ?: return@flow
+		val queue = domainEventQueueResolver.domainEventQueueName(subscriber)
+		logger.debug("Pulling next 10 messages from queue: $queue")
 
+		for (i in 0..10) {
+			val delivery = channel.basicGet(queue, false) ?: return@flow
 			emit(delivery)
 		}
 	}
@@ -58,7 +60,8 @@ class RabbitMqPollingDomainEventConsumer(
 				processDelivery(channel, subscriber, it)
 			}
 
-			delay(500)
+			logger.debug("Waiting for pull next messages...")
+			delay(1000)
 		}
 	}
 

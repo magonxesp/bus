@@ -10,3 +10,9 @@ deploy:
 
 stop:
 	docker stack rm rabbitmq_polling
+
+logs-backend:
+	docker service logs -f --tail 10 rabbitmq_polling_backend
+
+logs-consumer:
+	docker service logs -f --tail 10 rabbitmq_polling_consumer

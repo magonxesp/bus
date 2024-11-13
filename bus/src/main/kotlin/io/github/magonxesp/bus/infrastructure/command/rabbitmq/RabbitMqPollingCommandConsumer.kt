@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.delayEach
 import kotlinx.coroutines.flow.flow
 import org.slf4j.LoggerFactory
+import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
 class RabbitMqPollingCommandConsumer(
@@ -26,6 +27,7 @@ class RabbitMqPollingCommandConsumer(
 
 	private fun setupGracefulHook() {
 		Runtime.getRuntime().addShutdownHook(thread(start = false) {
+			logger.info("Stopping all command consumers...")
 			consumers.forEach {
 				it.cancel()
 			}
@@ -47,10 +49,11 @@ class RabbitMqPollingCommandConsumer(
 	}
 
 	private fun pullCommandForHandler(channel: Channel, handler: CommandHandlerClass) = flow {
-		for (i in 0..10) {
-			val queue = commandQueueResolver.commandQueueName(handler)
-			val delivery = channel.basicGet(queue, false) ?: return@flow
+		val queue = commandQueueResolver.commandQueueName(handler)
+		logger.debug("Pulling next 10 messages from queue: $queue")
 
+		for (i in 0..10) {
+			val delivery = channel.basicGet(queue, false) ?: return@flow
 			emit(delivery)
 		}
 	}
@@ -61,7 +64,8 @@ class RabbitMqPollingCommandConsumer(
 				processDelivery(channel, it)
 			}
 
-			delay(500)
+			logger.debug("Waiting for pull next messages...")
+			delay(1000)
 		}
 	}
 

@@ -11,4 +11,9 @@ class RabbitMqBusConfiguration : BusConfiguration() {
 	var connection: Connection? = null
 	var queuePrefix: String = ""
 	var consumePolling: Boolean = false
+	var useFixedQueueWorker: Boolean = false
+	var maxWorkerQueueMessages: Int = 10
+		set(value) { if (value < 1) field = 1 else field = value }
+	var maxWorkerThreads: Int = 4
+		set(value) { if (value < 1) field = 1 else field = value }
 }

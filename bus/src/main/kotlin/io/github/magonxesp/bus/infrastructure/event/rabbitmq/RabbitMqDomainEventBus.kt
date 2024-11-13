@@ -1,5 +1,6 @@
 package io.github.magonxesp.bus.infrastructure.event.rabbitmq
 
+import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import io.github.magonxesp.bus.domain.event.DomainEvent
 import io.github.magonxesp.bus.domain.event.DomainEventBus
@@ -13,8 +14,21 @@ class RabbitMqDomainEventBus(
 	private val domainEventSerializer: DomainEventSerializer,
 	private val domainEventQueueResolver: RabbitMqDomainEventQueueResolver
 ) : DomainEventBus {
+	companion object {
+		private var channel: Channel? = null
+	}
+
+	@Synchronized
+	private fun Connection.getChannel(): Channel {
+		if (channel == null || !channel!!.isOpen) {
+			channel = createChannel()
+		}
+
+		return channel!!
+	}
+
 	override fun publish(vararg domainEvent: DomainEvent<*>): Unit = withTimeSpentLog(::publish) {
-		val channel = connection.createChannel()
+		val channel = connection.getChannel()
 
 		for (event in domainEvent) {
 			val exchange = domainEventQueueResolver.domainEventExchangeName(event::class)

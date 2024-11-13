@@ -16,7 +16,9 @@ fun configureDependencyInjection() {
 				port = rabbitMqPort
 				username = rabbitMqUser
 				password = rabbitMqPassword
-				consumePolling = true
+				useFixedQueueWorker = true
+				maxWorkerThreads = 4
+				maxWorkerQueueMessages = 10
 			},
 			rabbitMqDomainEventBusModule {
 				basePackage = "io.github.magonxesp.example"
@@ -24,7 +26,9 @@ fun configureDependencyInjection() {
 				port = rabbitMqPort
 				username = rabbitMqUser
 				password = rabbitMqPassword
-				consumePolling = true
+				useFixedQueueWorker = true
+				maxWorkerThreads = 4
+				maxWorkerQueueMessages = 10
 			}
 		)
 	}

@@ -4,7 +4,9 @@ import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 import org.koin.core.module.Module
 import org.koin.dsl.bind
-import kotlin.math.sin
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 fun Module.rabbitMqConnectionFactory(configuration: RabbitMqBusConfiguration) {
 	if (configuration.connection != null) {
@@ -12,13 +14,25 @@ fun Module.rabbitMqConnectionFactory(configuration: RabbitMqBusConfiguration) {
 		return
 	}
 
-	single {
-		ConnectionFactory().apply {
-			username = configuration.username
-			password = configuration.password
-			host = configuration.host
-			port = configuration.port
-			configuration.virtualHost?.also { virtualHost = it }
-		}.newConnection()
-	} bind Connection::class
+	fun ConnectionFactory.applyConfig() = apply {
+		username = configuration.username
+		password = configuration.password
+		host = configuration.host
+		port = configuration.port
+		configuration.virtualHost?.also { virtualHost = it }
+	}
+
+	if (configuration.useFixedQueueWorker) {
+		single {
+			ConnectionFactory().applyConfig().newConnection(
+				ThreadPoolExecutor(
+					1, configuration.maxWorkerThreads,
+					0L, TimeUnit.MILLISECONDS,
+					LinkedBlockingQueue(configuration.maxWorkerQueueMessages)
+				)
+			)
+		} bind Connection::class
+	} else {
+		single { ConnectionFactory().applyConfig().newConnection() } bind Connection::class
+	}
 }

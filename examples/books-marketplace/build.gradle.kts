@@ -22,6 +22,7 @@ dependencies {
 	val influxdb_version: String by project
 	val koin_version: String by project
 	val dotenv_version: String by project
+	val hikaricp_version: String by project
 
 	implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
@@ -29,6 +30,7 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgres_version")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+    implementation("com.zaxxer:HikariCP:$hikaricp_version")
     implementation("io.ktor:ktor-server-metrics-jvm")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm")
     implementation("io.micrometer:micrometer-registry-influx:$influxdb_version")
