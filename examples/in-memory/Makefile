@@ -10,3 +10,9 @@ deploy:
 
 stop:
 	docker stack rm in_memory
+
+logs-backend:
+	docker service logs -f --tail 10 in_memory_backend
+
+logs-consumer:
+	docker service logs -f --tail 10 in_memory_consumer
