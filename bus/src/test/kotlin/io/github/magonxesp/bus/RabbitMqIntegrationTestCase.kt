@@ -14,7 +14,6 @@ import org.testcontainers.utility.DockerImageName
 
 abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 	private val logger = LoggerFactory.getLogger(this::class.java)
-	protected open val injectPollingConsumer = false
 
 	companion object {
 		val rabbitmq = RabbitMQContainer(DockerImageName.parse("rabbitmq:4.0.3-management-alpine"))
@@ -40,14 +39,12 @@ abstract class RabbitMqIntegrationTestCase : IntegrationTestCase() {
 					password = rabbitmq.adminPassword
 					port = rabbitmq.amqpPort
 					basePackage = "io.github.magonxesp.bus"
-					consumePolling = injectPollingConsumer
 				},
 				rabbitMqDomainEventBusModule {
 					username = rabbitmq.adminUsername
 					password = rabbitmq.adminPassword
 					port = rabbitmq.amqpPort
 					basePackage = "io.github.magonxesp.bus"
-					consumePolling = injectPollingConsumer
 				}
 			)
 		}

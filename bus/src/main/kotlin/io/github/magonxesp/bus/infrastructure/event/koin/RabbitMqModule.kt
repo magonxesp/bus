@@ -19,10 +19,5 @@ fun rabbitMqDomainEventBusModule(configure: RabbitMqBusConfiguration.() -> Unit)
 	single { RabbitMqDomainEventQueueAutoDeclaration(get(), get(), get()) }
 	single { DefaultRabbitMqDomainEventQueueResolver(configuration.queuePrefix) } bind RabbitMqDomainEventQueueResolver::class
 	single { RabbitMqDomainEventBus(get(), get(), get()) } bind DomainEventBus::class
-
-	if (configuration.consumePolling) {
-		single { RabbitMqPollingDomainEventConsumer(get(), get(), get(), get(), get()) } bind DomainEventConsumer::class
-	} else {
-		single { RabbitMqDomainEventConsumer(get(), get(), get(), get(), get()) } bind DomainEventConsumer::class
-	}
+	single { RabbitMqDomainEventConsumer(get(), get(), get(), get(), get()) } bind DomainEventConsumer::class
 }
