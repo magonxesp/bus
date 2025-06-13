@@ -6,13 +6,11 @@ const baseUrl = __ENV.BASE_URL ?? 'http://localhost:8080'
 
 export const options = {
     stages: [
+        { duration: '10s', target: 5 },
         { duration: '30s', target: 10 },
-        { duration: '1m', target: 300 },
-        { duration: '1m', target: 500 },
-        { duration: '1m', target: 1000 },
-        // { duration: '1m', target: 5000 },
-        // { duration: '1m', target: 10000 },
-        { duration: '1m', target: 10 },
+        { duration: '30s', target: 30 },
+        { duration: '30s', target: 50 },
+        { duration: '30s', target: 100 },
         { duration: '1m', target: 0 },
     ],
     thresholds: {
