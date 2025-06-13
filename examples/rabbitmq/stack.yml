@@ -1,6 +1,6 @@
 services:
   backend:
-    image: books_marketplace_rabbitmq:latest
+    image: books_marketplace_rabbitmq:1749802035
     deploy:
       resources:
         limits:
@@ -11,7 +11,7 @@ services:
       - '5005:5005'
 
   consumer:
-    image: books_marketplace_rabbitmq:latest
+    image: books_marketplace_rabbitmq:1749802035
     deploy:
       resources:
         limits:
@@ -29,6 +29,8 @@ services:
         limits:
           cpus: "2"
           memory: "1G"
+    ports:
+      - '5434:5432'
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
     environment:
